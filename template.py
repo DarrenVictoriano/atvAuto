@@ -12,26 +12,26 @@ from daaf.AppList import AppList
 
 class SampleTkinterLoop:
 
-    def __init__(self, master):
+    def __init__(self, tkRoot):
         # create an instance of the class for ATV Automation
         self.tv = ActionScript()
         self.rc = SonyRCKey()
         self.app = AppList()
 
-        # Initialize master as the Tk() instance
-        self.master = master
-        master.title("Sample Test")  # Change title for each test
-        master.iconbitmap("img/bot_icon.ico")
-        master.geometry("568x480")
+        # Initialize tkRoot as the Tk() instance
+        self.tkRoot = tkRoot
+        self.tkRoot.title("Sample Test")  # Change title for each test
+        self.tkRoot.iconbitmap("img/bot_icon.ico")
+        self.tkRoot.geometry("568x480")
 
         # Create frame for header and test area
-        self.headerFrame = ttk.Frame(self.master)
+        self.headerFrame = ttk.Frame(self.tkRoot)
         self.headerFrame.pack(fill=X)
 
-        self.testCanvas = Canvas(self.master)
+        self.testCanvas = Canvas(self.tkRoot)
         self.testCanvas.pack(fill=BOTH, side=LEFT, expand=True)
 
-        self.scrollbar = Scrollbar(self.master, command=self.testCanvas.yview)
+        self.scrollbar = Scrollbar(self.tkRoot, command=self.testCanvas.yview)
         self.scrollbar.pack(fill=Y, side=RIGHT, expand=False)
 
         self.testFrame = ttk.Frame(self.testCanvas)
@@ -94,7 +94,7 @@ class SampleTkinterLoop:
         """ Reset labels """
         for label in self.LabelLists:
             label.destroy()
-        self.master.update()
+        self.tkRoot.update()
 
     def startApp(self):
         # Create Label
@@ -111,8 +111,8 @@ class SampleTkinterLoop:
                                font=self.buttonFont, command=self.repeatIt, padx=55)
         self.btnStart.pack(fill=X, side=LEFT)
         # allow window to catch up
-        self.master.update()
-        self.master.mainloop()
+        self.tkRoot.update()
+        self.tkRoot.mainloop()
 
 # Create test case inside a function --------------------------------------------------
 
@@ -127,7 +127,7 @@ class SampleTkinterLoop:
         # add counter for BG
         self.bgCounter += 1
         # allow window to catch up
-        self.master.update()
+        self.tkRoot.update()
         self.update_scrollbar()
         time.sleep(1)
 
@@ -193,7 +193,7 @@ class SampleTkinterLoop:
             # update and reset testFrame after all function run
             self.resetLabels()
             self.reset_scrollbar()
-            self.master.update()
+            self.tkRoot.update()
 
             # pause before restarting loop
             self.loopCount.set(self.loopCount.get()-1)
