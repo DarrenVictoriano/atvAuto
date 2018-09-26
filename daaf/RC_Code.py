@@ -19,6 +19,7 @@ class SonyRCKey:
         self.NUMBER_8 = "KEYCODE_8"
         self.NUMBER_9 = "KEYCODE_9"
         self.DOT = "KEYCODE_PERIOD"
+        self.DISPLAY = "KEYCODE_INFO"
 
         self.GOOGLE_PLAY = "KEYCODE_BUTTON_8"
         self.NETFLIX = "KEYCODE_BUTTON_4"
@@ -34,6 +35,7 @@ class SonyRCKey:
         self.BACK = "KEYCODE_BACK"
         self.HOME = "KEYCODE_HOME"
         self.TV = "KEYCODE_TV"
+        self.DISCOVER = "KEYCODE_BUTTON_1"
 
         self.UP = "KEYCODE_DPAD_UP"
         self.DOWN = "KEYCODE_DPAD_DOWN"
