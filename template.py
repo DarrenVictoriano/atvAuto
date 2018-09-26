@@ -133,7 +133,7 @@ class SampleTkinterLoop:
 
         # Automation Script below --------------------
 
-        self.tv.wait_in_second(5)
+        self.tv.wait_in_second(1)
 
         # Automation Script above --------------------
 
@@ -197,7 +197,7 @@ class SampleTkinterLoop:
 
             # pause before restarting loop
             self.loopCount.set(self.loopCount.get()-1)
-            time.sleep(5)
+            time.sleep(1)
 
         # re-enable button after loop is done
         self.btnStart.config(state="normal")
