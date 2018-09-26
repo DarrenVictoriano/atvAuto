@@ -19,6 +19,7 @@ class AppList:
         self.AMAZON_ACT = "com.amazon.ignition.IgnitionActivity"
         self.HULU_ACT = "com.hulu.livingroomplus.MainActivity"
         self.YOUTUBE_ACT = "com.google.android.apps.youtube.tv.cobalt.activity.ShellActivity"
+        self.YOUTUBE_ACT_U2 = "com.google.android.apps.youtube.tv.activity.MainActivity"
         self.VUDU_ACT = "com.vudu.android.app.activities.NavigationListActivity"
         self.SETTINGS_ACT = "com.sony.dtv.settings.MainSettings"
         self.PSVUE_ACT = "com.snei.vue.ui.MainActivity"
