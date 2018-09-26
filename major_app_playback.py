@@ -131,16 +131,6 @@ class SampleTkinterLoop:
         self.update_scrollbar()
         time.sleep(1)
 
-        # Automation Script below --------------------
-
-        self.tv.wait_in_second(1)
-
-        # Automation Script above --------------------
-
-        # revert label color to black
-        x.config(foreground="#000", font=self.mainFont)
-        self.LabelLists.append(x)
-
     def launch_netflix(self):
         # Create label
         x = Label(
@@ -158,7 +148,98 @@ class SampleTkinterLoop:
 
         # Automation Script below --------------------
 
-        self.tv.wait_in_second(1)
+        self.tv.press_rc_key(self.rc.HOME)
+        self.tv.clear_launch_app(self.app.NETFLIX_PKG, self.app.NETFLIX_ACT)
+        self.tv.wait_in_second(10)
+        self.tv.press_rc_key(self.rc.ENTER)
+        self.tv.wait_in_second(2)
+        self.tv.press_rc_key(self.rc.ENTER)
+        self.tv.wait_in_second(2)
+
+        # Automation Script above --------------------
+
+        # revert label color to black
+        x.config(foreground="#000", font=self.mainFont)
+        self.LabelLists.append(x)
+
+    def playback_netflix(self):
+        # Create label
+        x = Label(
+            self.testFrame, text=f'Playback Netflix',
+            background=self.bgChooser(),
+            foreground="#a5120d",
+            font=self.boldFont)
+        x.pack(fill=X)
+        # add counter for BG
+        self.bgCounter += 1
+        # allow window to catch up
+        self.tkRoot.update()
+        self.update_scrollbar()
+        time.sleep(1)
+
+        # Automation Script below --------------------
+        # playback time
+        self.tv.wait_in_minute(1)
+
+        # Automation Script above --------------------
+
+        # revert label color to black
+        x.config(foreground="#000", font=self.mainFont)
+        self.LabelLists.append(x)
+
+    def launch_amazon(self):
+        # Create label
+        x = Label(
+            self.testFrame, text=f'Launching Amazon',
+            background=self.bgChooser(),
+            foreground="#a5120d",
+            font=self.boldFont)
+        x.pack(fill=X)
+        # add counter for BG
+        self.bgCounter += 1
+        # allow window to catch up
+        self.tkRoot.update()
+        self.update_scrollbar()
+        time.sleep(1)
+
+        # Automation Script below --------------------
+
+        self.tv.press_rc_key(self.rc.HOME)
+        self.tv.clear_launch_app(self.app.AMAZON_PKG, self.app.AMAZON_ACT)
+        self.tv.wait_in_second(10)
+        self.tv.press_rc_key(self.rc.DOWN)
+        self.tv.wait_in_second(2)
+        self.tv.press_rc_key(self.rc.DOWN)
+        self.tv.wait_in_second(2)
+        self.tv.press_rc_key(self.rc.ENTER)
+        self.tv.wait_in_second(2)
+        self.tv.press_rc_key(self.rc.ENTER)
+        self.tv.wait_in_second(2)
+
+        # Automation Script above --------------------
+
+        # revert label color to black
+        x.config(foreground="#000", font=self.mainFont)
+        self.LabelLists.append(x)
+
+    def playback_amazon(self):
+        # Create label
+        x = Label(
+            self.testFrame, text=f'Playback Amazon',
+            background=self.bgChooser(),
+            foreground="#a5120d",
+            font=self.boldFont)
+        x.pack(fill=X)
+        # add counter for BG
+        self.bgCounter += 1
+        # allow window to catch up
+        self.tkRoot.update()
+        self.update_scrollbar()
+        time.sleep(1)
+
+        # Automation Script below --------------------
+        # playback time
+        self.tv.wait_in_minute(1)
 
         # Automation Script above --------------------
 
@@ -178,6 +259,11 @@ class SampleTkinterLoop:
         while self.loopCount.get() > 0:
             self.testCanvas.yview_moveto(0)
             # assemble test case below -------------------------------------
+
+            self.launch_netflix()
+            self.playback_netflix()
+            self.launch_amazon()
+            self.playback_amazon()
 
             # Below are just to reset the UI ---------------------------------
             # update and reset testFrame after all function run
