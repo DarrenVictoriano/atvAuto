@@ -161,9 +161,18 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+        # give the app time to look for stop flag
+        self.look_for_stop()
 
 
 # End of test case inside a function --------------------------------------------------
+    def look_for_stop(self):
+        '''this is to give system more time to look for stop flag'''
+        if not self.stopLoop:
+            self.tv.wait_in_second(1)
+        else:
+            print("stopping from look_for_stop()")
+
     def stopIt(self):
         # stop main loop
         self.loopCount.set(1)
@@ -174,6 +183,14 @@ class SampleTkinterLoop:
         self.txtLoop.config(state="normal")
         self.labelLoop.config(text="Enter Loop count: ")
         self.testCanvas.yview_moveto(0)
+        # let user know
+        x = Label(
+            self.testFrame, text=f'Stopping test..',
+            background=self.bgChooser(),
+            foreground="#a5120d",
+            font=self.boldFont)
+        x.pack(fill=X)
+        self.LabelLists.append(x)
 
     def repeatIt(self):
         # reset UI and flag before starting loop
@@ -197,21 +214,21 @@ class SampleTkinterLoop:
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
-
+            self.look_for_stop()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
-
+            self.look_for_stop()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
-
+            self.look_for_stop()
             self.sample_testcase()
             self.sample_testcase()
             self.sample_testcase()
