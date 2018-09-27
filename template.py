@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.font as tkFont
 import time
+import threading
 # Import the ADB_Action_Script.py it must be on the same folder
 from daaf.ADB_Action_Scipt import ActionScript
 # Import the RC keys and App PKGs for easy scripting
@@ -119,7 +120,7 @@ class SampleTkinterLoop:
         self.txtLoop.pack(fill=X, side=LEFT)
         # Create start button
         self.btnStart = Button(self.headerFrame, text="Start Test",
-                               font=self.buttonFont, command=self.repeatIt, padx=55)
+                               font=self.buttonFont, command=self.start_loop, padx=55)
         self.btnStart.pack(fill=X, side=LEFT)
         # Create stop button
         self.btnStop = Button(self.headerFrame, text="Stop Test",
@@ -139,6 +140,7 @@ class SampleTkinterLoop:
 # Create test case inside a function --------------------------------------------------
 
     def sample_testcase(self):
+        # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # Create label
             x = Label(
@@ -156,33 +158,21 @@ class SampleTkinterLoop:
             # Automation Script below --------------------
 
             # Automation Script above --------------------
+
             # revert label color to black
             x.config(foreground="#000", font=self.mainFont)
             self.LabelLists.append(x)
         else:
             print("stopping test")
-        # give the app time to look for stop flag
-        self.look_for_stop()
-
 
 # End of test case inside a function --------------------------------------------------
-    def look_for_stop(self):
-        '''this is to give system more time to look for stop flag'''
-        if not self.stopLoop:
-            self.tv.wait_in_second(1)
-        else:
-            print("stopping from look_for_stop()")
 
     def stopIt(self):
         # stop main loop
         self.loopCount.set(1)
         self.stopLoop = True
-        # re-enable button after loop is done
+        # disable stop button
         self.btnStop.config(state="disabled")
-        self.btnStart.config(state="normal")
-        self.txtLoop.config(state="normal")
-        self.labelLoop.config(text="Enter Loop count: ")
-        self.testCanvas.yview_moveto(0)
         # let user know
         x = Label(
             self.testFrame, text=f'Stopping test..',
@@ -192,85 +182,92 @@ class SampleTkinterLoop:
         x.pack(fill=X)
         self.LabelLists.append(x)
 
-    def repeatIt(self):
-        # reset UI and flag before starting loop
+    def start_loop(self):
         self.stopLoop = False
-        self.resetLabels()
-        # enable stop button
-        self.btnStop.config(state="normal")
-        # disable button while loop is running
-        self.btnStart.config(state="disabled")
-        self.txtLoop.config(state="disabled")
-        self.labelLoop.config(text="Remaining Loop:  ")
+        self.watch_loop()
 
-        while self.loopCount.get() > 0:
-            # move scrollbar to bottom
-            self.testCanvas.yview_moveto(0)
-            # assemble test case below -------------------------------------
-
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.look_for_stop()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.look_for_stop()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.look_for_stop()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-            self.sample_testcase()
-
-            # Below are just to reset the UI ---------------------------------
-            # update and reset testFrame after all function run
+    def watch_loop(self):
+        def repeatIt():
+            # reset UI and flag before starting loop
             self.resetLabels()
-            self.reset_scrollbar()
-            self.tkRoot.update()
+            # enable stop button
+            self.btnStop.config(state="normal")
+            # disable button while loop is running
+            self.btnStart.config(state="disabled")
+            self.txtLoop.config(state="disabled")
+            self.labelLoop.config(text="Remaining Loop:  ")
 
-            # pause before restarting loop
-            self.loopCount.set(self.loopCount.get()-1)
-            time.sleep(1)
+            while self.loopCount.get() > 0:
+                # move scrollbar to bottom
+                self.testCanvas.yview_moveto(0)
+                # assemble test case below -------------------------------------
 
-        # disable stop button
-        self.btnStop.config(state="disabled")
-        # re-enable button after loop is done
-        self.btnStart.config(state="normal")
-        self.txtLoop.config(state="normal")
-        self.labelLoop.config(text="Enter Loop count: ")
-        self.testCanvas.yview_moveto(0)
-        # Let user know the script is done
-        if not self.stopLoop:
-            # loop did not stopped
-            x = Label(
-                self.testFrame, text=f'Test is done!',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont)
-            x.pack(fill=X)
-        else:
-            x = Label(
-                self.testFrame, text=f'Test stopped!',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont)
-            x.pack(fill=X)
-        self.loopCount.set(5)
-        self.LabelLists.append(x)
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+                self.sample_testcase()
+
+                # Below are just to reset the UI ---------------------------------
+                # update and reset testFrame after all function run
+                self.resetLabels()
+                self.reset_scrollbar()
+                self.tkRoot.update()
+
+                # pause before restarting loop
+                self.loopCount.set(self.loopCount.get()-1)
+                time.sleep(1)
+
+            # disable stop button
+            self.btnStop.config(state="disabled")
+            # re-enable button after loop is done
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            self.testCanvas.yview_moveto(0)
+            # Let user know the script is done
+            if not self.stopLoop:
+                # loop did not stopped
+                x = Label(
+                    self.testFrame, text=f'Test is done!',
+                    background=self.bgChooser(),
+                    foreground="#a5120d",
+                    font=self.boldFont)
+                x.pack(fill=X)
+            else:
+                x = Label(
+                    self.testFrame, text=f'Test stopped!',
+                    background=self.bgChooser(),
+                    foreground="#a5120d",
+                    font=self.boldFont)
+                x.pack(fill=X)
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            self.testCanvas.yview_moveto(0)
+            self.loopCount.set(5)
+            self.LabelLists.append(x)
+        thread = threading.Thread(target=repeatIt)
+        thread.start()
 
 
 root = Tk()
