@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.font as tkFont
 import time
+import datetime
 import threading
 # Import the ADB_Action_Script.py it must be on the same folder
 from daaf.ADB_Action_Scipt import ActionScript
@@ -73,6 +74,7 @@ class SampleTkinterLoop:
         self.txtLoop = Entry()
         self.labelLoop = Label()
         self.LabelLists = []
+        self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
 
     def on_configure(self, event):
         # update scrollregion after starting 'mainloop'
@@ -137,14 +139,16 @@ class SampleTkinterLoop:
         self.tkRoot.mainloop()
 
 
-# Create test case inside a function --------------------------------------------------
+# Function Template ---------------------------------------------------------------------
 
     def sample_testcase(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'Sample test case running',
+                self.testFrame, text=f'{ts} - Sample test case running',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont)
@@ -164,6 +168,9 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
+# Create test case inside a function --------------------------------------------------
+
 
 # End of test case inside a function --------------------------------------------------
 
