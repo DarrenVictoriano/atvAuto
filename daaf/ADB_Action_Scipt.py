@@ -34,6 +34,14 @@ class ActionScript:
             print(e)
             print(f'Error while executing command\n {out}\n error was: {e}')
 
+    def force_stop_app(self, app_pkg):
+        """ force stop app pkg"""
+        try:
+            out = self.send_adb(f'shell am force-stop {app_pkg}')
+        except Exception as e:
+            print(e)
+            print(f'Error while executing command\n {out}\n error was: {e}')
+
     def clear_launch_app(self, app_pkg, app_activity):
         """Launch the app pkg and act via adb using am start command"""
         try:
