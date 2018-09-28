@@ -57,6 +57,8 @@ class SampleTkinterLoop:
         # Create a custom font
         self.mainFont = tkFont.Font(
             family="Helvetica", size=14, weight=tkFont.NORMAL)
+        self.sideFont = tkFont.Font(
+            family="Helvetica", size=14, weight=tkFont.NORMAL)
         self.buttonFont = tkFont.Font(
             family="Helvetica", size=10, weight=tkFont.BOLD)
         self.boldFont = tkFont.Font(
@@ -132,12 +134,23 @@ class SampleTkinterLoop:
         # Instruction Pane ----------------
         sideLabel = Label(
             self.sideFrame, text=f'Test Case:',
-            font=self.mainFont)
+            font=self.sideFont)
         sideLabel.pack(fill=X)
-        i1 = Label(
-            self.sideFrame, text=f'Sample test case',
-            font=self.mainFont, anchor='w')
-        i1.pack(fill=X, padx=10)
+        # intruction below
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
