@@ -134,6 +134,10 @@ class SampleTkinterLoop:
             self.sideFrame, text=f'Test Case:',
             font=self.mainFont)
         sideLabel.pack(fill=X)
+        i1 = Label(
+            self.sideFrame, text=f'Sample test case',
+            font=self.mainFont, anchor='w')
+        i1.pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
@@ -148,10 +152,10 @@ class SampleTkinterLoop:
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Sample test case running',
+                self.testFrame, text=f'{ts} - Sample test case',
                 background=self.bgChooser(),
                 foreground="#a5120d",
-                font=self.boldFont)
+                font=self.boldFont, anchor='w')
             x.pack(fill=X)
             # add counter for BG
             self.bgCounter += 1
