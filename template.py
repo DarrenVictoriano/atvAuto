@@ -3,6 +3,7 @@ from tkinter import *
 from tkinter import ttk
 import tkinter.font as tkFont
 import time
+import datetime
 import threading
 # Import the ADB_Action_Script.py it must be on the same folder
 from daaf.ADB_Action_Scipt import ActionScript
@@ -56,6 +57,8 @@ class SampleTkinterLoop:
         # Create a custom font
         self.mainFont = tkFont.Font(
             family="Helvetica", size=14, weight=tkFont.NORMAL)
+        self.sideFont = tkFont.Font(
+            family="Helvetica", size=14, weight=tkFont.NORMAL)
         self.buttonFont = tkFont.Font(
             family="Helvetica", size=10, weight=tkFont.BOLD)
         self.boldFont = tkFont.Font(
@@ -73,6 +76,7 @@ class SampleTkinterLoop:
         self.txtLoop = Entry()
         self.labelLoop = Label()
         self.LabelLists = []
+        self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
 
     def on_configure(self, event):
         # update scrollregion after starting 'mainloop'
@@ -130,24 +134,41 @@ class SampleTkinterLoop:
         # Instruction Pane ----------------
         sideLabel = Label(
             self.sideFrame, text=f'Test Case:',
-            font=self.mainFont)
+            font=self.sideFont)
         sideLabel.pack(fill=X)
+        # intruction below
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Sample test item here',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
 
 
-# Create test case inside a function --------------------------------------------------
+# Function Template ---------------------------------------------------------------------
 
     def sample_testcase(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'Sample test case running',
+                self.testFrame, text=f'{ts} - Sample test case',
                 background=self.bgChooser(),
                 foreground="#a5120d",
-                font=self.boldFont)
+                font=self.boldFont, anchor='w')
             x.pack(fill=X)
             # add counter for BG
             self.bgCounter += 1
@@ -164,6 +185,9 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
+# Create test case inside a function --------------------------------------------------
+
 
 # End of test case inside a function --------------------------------------------------
 
