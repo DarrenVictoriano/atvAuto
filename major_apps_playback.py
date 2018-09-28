@@ -57,6 +57,8 @@ class SampleTkinterLoop:
         # Create a custom font
         self.mainFont = tkFont.Font(
             family="Helvetica", size=14, weight=tkFont.NORMAL)
+        self.sideFont = tkFont.Font(
+            family="Helvetica", size=14, weight=tkFont.NORMAL)
         self.buttonFont = tkFont.Font(
             family="Helvetica", size=10, weight=tkFont.BOLD)
         self.boldFont = tkFont.Font(
@@ -75,6 +77,7 @@ class SampleTkinterLoop:
         self.labelLoop = Label()
         self.LabelLists = []
         self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
+        self.playback_time = 60
 
     def on_configure(self, event):
         # update scrollregion after starting 'mainloop'
@@ -132,8 +135,19 @@ class SampleTkinterLoop:
         # Instruction Pane ----------------
         sideLabel = Label(
             self.sideFrame, text=f'Test Case:',
-            font=self.mainFont)
+            font=self.sideFont)
         sideLabel.pack(fill=X)
+        # intruction below
+        Label(self.sideFrame, text=f'Launch Netflix then playback for 1 hour',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch Amazon then playback for 1 hour',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch Hulu then playback for 1 hour',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch Vudu then playback for 1 hour',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch YouTube then playback for 1 hour',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
@@ -237,7 +251,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def playback_netflix(self):
+    def playback_netflix(self, pt):
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -257,7 +271,7 @@ class SampleTkinterLoop:
 
             # Automation Script below --------------------
             # playback time
-            self.tv.wait_in_minute(1)
+            self.tv.wait_in_minute(pt)
 
             # Automation Script above --------------------
 
@@ -336,7 +350,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def playback_amazon(self):
+    def playback_amazon(self, pt):
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -356,7 +370,7 @@ class SampleTkinterLoop:
 
             # Automation Script below --------------------
             # playback time
-            self.tv.wait_in_minute(1)
+            self.tv.wait_in_minute(pt)
 
             # Automation Script above --------------------
 
@@ -432,7 +446,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def playback_hulu(self):
+    def playback_hulu(self, pt):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -452,7 +466,7 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(1)
+            self.tv.wait_in_minute(pt)
 
             # Automation Script above --------------------
 
@@ -536,7 +550,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def playback_vudu(self):
+    def playback_vudu(self, pt):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -556,7 +570,7 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(1)
+            self.tv.wait_in_minute(pt)
 
             # Automation Script above --------------------
 
@@ -586,6 +600,13 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+            self.tv.force_stop_app(self.app.YOUTUBE_PKG)
+            self.tv.wait_in_second(1)
+            self.tv.launch_app(self.app.YOUTUBE_PKG)
+            self.tv.wait_in_second(10)
+
             # Automation Script above --------------------
 
             # revert label color to black
@@ -614,6 +635,11 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
+            self.tv.press_rc_key(self.rc.RIGHT)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+
             # Automation Script above --------------------
 
             # revert label color to black
@@ -622,7 +648,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def playback_youtube(self):
+    def playback_youtube(self, pt):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -641,6 +667,8 @@ class SampleTkinterLoop:
             self.update_scrollbar()
             time.sleep(1)
             # Automation Script below --------------------
+
+            self.tv.wait_in_minute(pt)
 
             # Automation Script above --------------------
 
@@ -687,9 +715,25 @@ class SampleTkinterLoop:
                 self.testCanvas.yview_moveto(0)
                 # assemble test case below ---------------------------------------
 
+                self.launch_netflix()
+                self.select_netflix_content()
+                self.playback_netflix(self.playback_time)
+
+                self.launch_amazon()
+                self.select_amazon_content()
+                self.playback_amazon(self.playback_time)
+
+                self.launch_hulu()
+                self.select_hulu_content()
+                self.playback_hulu(self.playback_time)
+
                 self.launch_vudu()
                 self.select_vudu_content()
-                self.playback_vudu()
+                self.playback_vudu(self.playback_time)
+
+                self.launch_youtube()
+                self.select_youtube_content()
+                self.playback_youtube(self.playback_time)
 
                 # Below are just to reset the UI ---------------------------------
                 # update and reset testFrame after all function run
