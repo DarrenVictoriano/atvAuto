@@ -146,9 +146,15 @@ class SampleTkinterLoop:
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Do volume change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch HDMI2 with BDP',
+        Label(self.sideFrame, text=f'Launch HDMI1 with STB',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Do channel change',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Do volume change',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch HDMI2 with BDP',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Do Trickplay',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Do volume change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
@@ -188,6 +194,37 @@ class SampleTkinterLoop:
             print("stopping test")
 
 # Create test case inside a function --------------------------------------------------
+
+    def press_home(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Press Home',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
 
     def wait_second(self, time_wait):
         # each test case 1st check for the stop button flag
@@ -312,6 +349,232 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
+    
+    def volume_up(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Volume Up',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.VOLUME_UP)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def volume_down(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Volume Down',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.VOLUME_DOWN)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def launch_stb_input(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch HDMI1',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HDMI1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def launch_bdp_input(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch HDMI2',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HDMI2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def press_ff(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Fast Forward',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.FF)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.FF)
+            self.tv.wait_in_second(2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def press_rw(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Rewind',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.RW)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.RW)
+            self.tv.wait_in_second(2)
+
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def press_play(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback Content for 30s',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.PLAY)
+            self.tv.wait_in_second(30)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
 # End of test case inside a function --------------------------------------------------
 
     def stopIt(self):
@@ -355,15 +618,73 @@ class SampleTkinterLoop:
                 self.testCanvas.yview_moveto(0)
                 # assemble test case below -------------------------------------
 
+                # Home Screen
+                self.press_home()
+                self.wait_second(3)
+
+                # Go to Channel Input
                 self.launch_tv_input()
                 self.wait_second(5)
+                
+                # channel Down 3 times
+                for i in range(1, 4):
+                    self.channel_down()
+                    self.wait_second(3)
+                    print(f'CH Down press count: {i}')
 
-                self.channel_down()
-                self.wait_second(3)
+                # Channel Up 3 times
+                for i in range(1, 4):
+                    self.channel_up()
+                    self.wait_second(3)
+                    print(f'CH Up press count: {i}')
+                
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
 
-                self.channel_up()
-                self.wait_second(3)
+                # Go to HDMI1 Input
+                self.launch_stb_input()
+                self.wait_second(5)
+                
+                # channel Down 3 times
+                for i in range(1, 4):
+                    self.channel_down()
+                    self.wait_second(3)
+                    print(f'CH Down press count: {i}')
 
+                # Channel Up 3 times
+                for i in range(1, 4):
+                    self.channel_up()
+                    self.wait_second(3)
+                    print(f'CH Up press count: {i}')
+                
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
+                
+                # Go to HDMI2 Input
+                self.launch_bdp_input()
+                self.wait_second(5)
+
+                # Trickplay
+                self.press_ff()
+                self.press_play()
+                self.press_rw()
+                self.press_play()
+
+                
                 # Below are just to reset the UI ---------------------------------
 
                 if not self.stopLoop:
