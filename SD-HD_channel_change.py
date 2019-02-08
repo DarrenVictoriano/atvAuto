@@ -67,8 +67,9 @@ class SampleTkinterLoop:
         # Initialize flags for background of the labels and loop count
         self.bgCounter = 0
         self.loopCount = IntVar()
-        self.loopCount.set(5)
+        self.loopCount.set(20000)
         self.stopLoop = False
+        self.countLoopReset = 0
 
         # Initialize button so we can access it on any functions
         self.btnStart = Button()
@@ -140,7 +141,7 @@ class SampleTkinterLoop:
         # intruction below
         Label(self.sideFrame, text=f'Press Jump RC key',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Playback for 10 seconds',
+        Label(self.sideFrame, text=f'Playback for 5 seconds',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Repeat..',
         font=self.sideFont, anchor='w').pack(fill=X, padx=10)
@@ -211,6 +212,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
     
+
     def playback_content(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -231,7 +233,39 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_second(10)
+            self.tv.wait_in_second(5)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+        
+    def press_enter(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Press Enter, incase of STB network error',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(5)
 
             # Automation Script above --------------------
 
@@ -278,14 +312,18 @@ class SampleTkinterLoop:
             self.btnStart.config(state="disabled")
             self.txtLoop.config(state="disabled")
             self.labelLoop.config(text="Remaining Loop:  ")
-
+            
             while self.loopCount.get() > 0:
                 # move scrollbar to bottom
                 self.testCanvas.yview_moveto(0)
                 # assemble test case below -------------------------------------
-
+                self.countLoopReset += 1
                 self.jump_channel()
                 self.playback_content()
+
+                if self.countLoopReset == 1000:
+                    self.press_enter()
+                    self.countLoopReset = 1
 
                 # Below are just to reset the UI ---------------------------------
 
