@@ -746,7 +746,7 @@ class SampleTkinterLoop:
             self.btnStart.config(state="normal")
             self.txtLoop.config(state="normal")
             self.labelLoop.config(text="Enter Loop count: ")
-            self.loopCount.set(5)
+            self.loopCount.set(1)
             self.LabelLists.append(x)
             # allow window to catch up
             self.tkRoot.update()
