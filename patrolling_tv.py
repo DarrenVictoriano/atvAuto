@@ -676,7 +676,7 @@ class SampleTkinterLoop:
                 
                 # Go to HDMI2 Input
                 self.launch_bdp_input()
-                self.wait_second(5)
+                self.wait_second(30)
 
                 # Trickplay
                 self.press_ff()
@@ -684,7 +684,16 @@ class SampleTkinterLoop:
                 self.press_rw()
                 self.press_play()
 
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
                 
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
+
                 # Below are just to reset the UI ---------------------------------
 
                 if not self.stopLoop:
