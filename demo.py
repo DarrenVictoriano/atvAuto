@@ -140,12 +140,6 @@ class SampleTkinterLoop:
             font=self.sideFont)
         sideLabel.pack(fill=X)
         # intruction below
-        Label(self.sideFrame, text=f'Launch Channel Input',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do channel change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do volume change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Launch HDMI1 with STB',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Do channel change',
@@ -153,6 +147,14 @@ class SampleTkinterLoop:
         Label(self.sideFrame, text=f'Do volume change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Launch Netflix',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Playback content',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)   
+        Label(self.sideFrame, text=f'Do Trickplay',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Do volume change',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch Amazon',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Playback content',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)   
@@ -672,6 +674,105 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
+    def launch_amazon(self):
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launching Amazon',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.clear_launch_app(self.app.AMAZON_PKG, self.app.AMAZON_ACT)
+            self.tv.wait_in_second(10)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    def select_amazon_content(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Selecting content for playback',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.DOWN)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.DOWN)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    def playback_amazon(self, pt):
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback Amazon',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+
+            # Automation Script below --------------------
+            # playback time
+            self.tv.wait_in_minute(pt)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
 # End of test case inside a function --------------------------------------------------
 
     def stopIt(self):
@@ -719,32 +820,6 @@ class SampleTkinterLoop:
                 self.press_home()
                 self.wait_second(3)
 
-                # Go to Channel Input
-                self.launch_tv_input()
-                self.wait_second(5)
-                
-                # channel Down 3 times
-                for i in range(1, 4):
-                    self.channel_down()
-                    self.wait_second(3)
-                    print(f'CH Down press count: {i}')
-
-                # Channel Up 3 times
-                for i in range(1, 4):
-                    self.channel_up()
-                    self.wait_second(3)
-                    print(f'CH Up press count: {i}')
-                
-                # Volume Up 3 times
-                for i in range(1, 4):
-                    self.volume_up()
-                    print(f'VOL Up press count: {i}')
-                
-                # Volume Down 3 times
-                for i in range(1, 4):
-                    self.volume_down()
-                    print(f'VOL Down press count: {i}')
-
                 # Go to HDMI1 Input
                 self.launch_stb_input()
                 self.wait_second(5)
@@ -775,6 +850,27 @@ class SampleTkinterLoop:
                 self.launch_netflix()
                 self.select_netflix_content()
                 self.playback_netflix(self.playback_time)
+
+                # Trickplay
+                self.press_ff()
+                self.press_play()
+                self.press_rw()
+                self.press_play()
+
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
+
+                # Launch Amazon and Play content
+                self.launch_amazon()
+                self.select_amazon_content()
+                self.playback_amazon(self.playback_time)
 
                 # Trickplay
                 self.press_ff()
