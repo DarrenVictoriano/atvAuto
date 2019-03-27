@@ -77,7 +77,7 @@ class SampleTkinterLoop:
         self.labelLoop = Label()
         self.LabelLists = []
         self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
-        self.playback_time = 0.3
+        self.playback_time = 60
 
     def on_configure(self, event):
         # update scrollregion after starting 'mainloop'
