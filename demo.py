@@ -10,6 +10,7 @@ from daaf.ADB_Action_Scipt import ActionScript
 # Import the RC keys and App PKGs for easy scripting
 from daaf.RC_Code import SonyRCKey
 from daaf.AppList import AppList
+import daaf.Power_Tools as pt
 
 
 class SampleTkinterLoop:
@@ -67,8 +68,9 @@ class SampleTkinterLoop:
         # Initialize flags for background of the labels and loop count
         self.bgCounter = 0
         self.loopCount = IntVar()
-        self.loopCount.set(5)
+        self.loopCount.set(1)
         self.stopLoop = False
+        self.countLoopReset = 0
 
         # Initialize button so we can access it on any functions
         self.btnStart = Button()
@@ -77,7 +79,7 @@ class SampleTkinterLoop:
         self.labelLoop = Label()
         self.LabelLists = []
         self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
-        self.playback_time = 60
+        self.playback_time = 0.3
 
     def on_configure(self, event):
         # update scrollregion after starting 'mainloop'
@@ -138,15 +140,25 @@ class SampleTkinterLoop:
             font=self.sideFont)
         sideLabel.pack(fill=X)
         # intruction below
-        Label(self.sideFrame, text=f'Launch Netflix then playback for 1 hour',
+        Label(self.sideFrame, text=f'Launch Channel Input',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch Amazon then playback for 1 hour',
+        Label(self.sideFrame, text=f'Do channel change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch Hulu then playback for 1 hour',
+        Label(self.sideFrame, text=f'Do volume change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch Vudu then playback for 1 hour',
+        Label(self.sideFrame, text=f'Launch HDMI1 with STB',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch YouTube then playback for 1 hour',
+        Label(self.sideFrame, text=f'Do channel change',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Do volume change',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Launch Netflix',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Playback content',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)   
+        Label(self.sideFrame, text=f'Do Trickplay',
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        Label(self.sideFrame, text=f'Do volume change',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
@@ -184,6 +196,385 @@ class SampleTkinterLoop:
             print("stopping test")
 
 # Create test case inside a function --------------------------------------------------
+
+    def press_home(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Press Home',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def wait_second(self, time_wait):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Waiting {time_wait}s',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_second(time_wait)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def launch_tv_input(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch Channel Input',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.TV)
+            
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def channel_down(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Channel Down',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.CHANNEL_DOWN)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def channel_up(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Channel Up',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.CHANNEL_UP)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def volume_up(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Volume Up',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.VOLUME_UP)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def volume_down(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Volume Down',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.VOLUME_DOWN)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def launch_stb_input(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch HDMI1',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HDMI1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def launch_bdp_input(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch HDMI2',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HDMI2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+    
+
+    def press_ff(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Fast Forward',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.FF)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.FF)
+            self.tv.wait_in_second(2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def press_rw(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Rewind',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.RW)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.RW)
+            self.tv.wait_in_second(2)
+
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def press_play(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback Content for 30s',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.PLAY)
+            self.tv.wait_in_second(30)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
 
     def launch_netflix(self):
         if not self.stopLoop:
@@ -281,403 +672,6 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    def launch_amazon(self):
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Launching Amazon',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.HOME)
-            self.tv.clear_launch_app(self.app.AMAZON_PKG, self.app.AMAZON_ACT)
-            self.tv.wait_in_second(10)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def select_amazon_content(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Selecting content for playback',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.DOWN)
-            self.tv.wait_in_second(2)
-            self.tv.press_rc_key(self.rc.DOWN)
-            self.tv.wait_in_second(2)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(2)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(2)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def playback_amazon(self, pt):
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Playback Amazon',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-
-            # Automation Script below --------------------
-            # playback time
-            self.tv.wait_in_minute(pt)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def launch_hulu(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Launching Hulu',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.HOME)
-            self.tv.wait_in_second(1)
-            self.tv.clear_launch_app(self.app.HULU_PKG, self.app.HULU_ACT)
-            self.tv.wait_in_second(10)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def select_hulu_content(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Selecting content for playback',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def playback_hulu(self, pt):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Playback Hulu',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.wait_in_minute(pt)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def launch_vudu(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Launching Vudu',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.HOME)
-            self.tv.wait_in_second(1)
-            self.tv.clear_launch_app(self.app.VUDU_PKG, self.app.VUDU_ACT)
-            self.tv.wait_in_second(10)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def select_vudu_content(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Selecting content for playback',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-            
-            self.tv.press_rc_key(self.rc.RIGHT)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.RIGHT)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.DOWN)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def playback_vudu(self, pt):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Playback Vudu',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.wait_in_minute(pt)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def launch_youtube(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Launching YouTube',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.HOME)
-            self.tv.wait_in_second(1)
-            self.tv.force_stop_app(self.app.YOUTUBE_PKG)
-            self.tv.wait_in_second(1)
-            self.tv.launch_app(self.app.YOUTUBE_PKG)
-            self.tv.wait_in_second(10)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def select_youtube_content(self):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Selecting content for playback',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.press_rc_key(self.rc.RIGHT)
-            self.tv.wait_in_second(1)
-            self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(1)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
-    def playback_youtube(self, pt):
-        # each test case 1st check for the stop button flag
-        if not self.stopLoop:
-            # get time
-            ts = datetime.datetime.now().strftime(self.tsFormat)
-            # Create label
-            x = Label(
-                self.testFrame, text=f'{ts} - Playback YouTube',
-                background=self.bgChooser(),
-                foreground="#a5120d",
-                font=self.boldFont, anchor='w')
-            x.pack(fill=X)
-            # add counter for BG
-            self.bgCounter += 1
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-            time.sleep(1)
-            # Automation Script below --------------------
-
-            self.tv.wait_in_minute(pt)
-
-            # Automation Script above --------------------
-
-            # revert label color to black
-            x.config(foreground="#000", font=self.mainFont)
-            self.LabelLists.append(x)
-        else:
-            print("stopping test")
-
 # End of test case inside a function --------------------------------------------------
 
     def stopIt(self):
@@ -721,25 +715,82 @@ class SampleTkinterLoop:
                 self.testCanvas.yview_moveto(0)
                 # assemble test case below -------------------------------------
 
+                # Home Screen
+                self.press_home()
+                self.wait_second(3)
+
+                # Go to Channel Input
+                self.launch_tv_input()
+                self.wait_second(5)
+                
+                # channel Down 3 times
+                for i in range(1, 4):
+                    self.channel_down()
+                    self.wait_second(3)
+                    print(f'CH Down press count: {i}')
+
+                # Channel Up 3 times
+                for i in range(1, 4):
+                    self.channel_up()
+                    self.wait_second(3)
+                    print(f'CH Up press count: {i}')
+                
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
+
+                # Go to HDMI1 Input
+                self.launch_stb_input()
+                self.wait_second(5)
+                
+                # channel Down 3 times
+                for i in range(1, 4):
+                    self.channel_down()
+                    self.wait_second(3)
+                    print(f'CH Down press count: {i}')
+
+                # Channel Up 3 times
+                for i in range(1, 4):
+                    self.channel_up()
+                    self.wait_second(3)
+                    print(f'CH Up press count: {i}')
+                
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
+                
+                # Launch and playback netflix
                 self.launch_netflix()
                 self.select_netflix_content()
                 self.playback_netflix(self.playback_time)
 
-                self.launch_amazon()
-                self.select_amazon_content()
-                self.playback_amazon(self.playback_time)
+                # Trickplay
+                self.press_ff()
+                self.press_play()
+                self.press_rw()
+                self.press_play()
 
-                self.launch_hulu()
-                self.select_hulu_content()
-                self.playback_hulu(self.playback_time)
-
-                self.launch_vudu()
-                self.select_vudu_content()
-                self.playback_vudu(self.playback_time)
-
-                self.launch_youtube()
-                self.select_youtube_content()
-                self.playback_youtube(self.playback_time)
+                # Volume Up 3 times
+                for i in range(1, 4):
+                    self.volume_up()
+                    print(f'VOL Up press count: {i}')
+                
+                # Volume Down 3 times
+                for i in range(1, 4):
+                    self.volume_down()
+                    print(f'VOL Down press count: {i}')
 
                 # Below are just to reset the UI ---------------------------------
 
@@ -749,7 +800,7 @@ class SampleTkinterLoop:
                     x = Label(
                         self.testFrame, text=f'End of Loop',
                         background=self.bgChooser(),
-                        foreground="#a5120d",
+                        foreground="#630984",
                         font=self.boldFont)
                     x.pack(fill=X)
                     # flag gor BG and labels
@@ -778,7 +829,7 @@ class SampleTkinterLoop:
                 x = Label(
                     self.testFrame, text=f'Test is done!',
                     background=self.bgChooser(),
-                    foreground="#a5120d",
+                    foreground="#057224",
                     font=self.boldFont)
                 x.pack(fill=X)
                 self.bgCounter += 1
@@ -786,14 +837,14 @@ class SampleTkinterLoop:
                 x = Label(
                     self.testFrame, text=f'Test stopped!',
                     background=self.bgChooser(),
-                    foreground="#a5120d",
+                    foreground="#057224",
                     font=self.boldFont)
                 x.pack(fill=X)
                 self.bgCounter += 1
             self.btnStart.config(state="normal")
             self.txtLoop.config(state="normal")
             self.labelLoop.config(text="Enter Loop count: ")
-            self.loopCount.set(5)
+            self.loopCount.set(1)
             self.LabelLists.append(x)
             # allow window to catch up
             self.tkRoot.update()
