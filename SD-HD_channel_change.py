@@ -144,7 +144,7 @@ class SampleTkinterLoop:
         Label(self.sideFrame, text=f'Playback for 5 seconds',
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         Label(self.sideFrame, text=f'Repeat..',
-        font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
@@ -211,7 +211,6 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-    
 
     def playback_content(self):
         # each test case 1st check for the stop button flag
@@ -243,7 +242,6 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-        
     def press_enter(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -312,7 +310,7 @@ class SampleTkinterLoop:
             self.btnStart.config(state="disabled")
             self.txtLoop.config(state="disabled")
             self.labelLoop.config(text="Remaining Loop:  ")
-            
+
             while self.loopCount.get() > 0:
                 # move scrollbar to bottom
                 self.testCanvas.yview_moveto(0)
@@ -321,9 +319,9 @@ class SampleTkinterLoop:
                 self.jump_channel()
                 self.playback_content()
 
-                if self.countLoopReset == 1000:
-                    self.press_enter()
-                    self.countLoopReset = 1
+                # if self.countLoopReset == 1000:
+                #     self.press_enter()
+                #     self.countLoopReset = 1
 
                 # Below are just to reset the UI ---------------------------------
 
