@@ -6,16 +6,16 @@ import time
 import datetime
 import threading
 # Import the ADB_Action_Script.py it must be on the same folder
-from daaf.ADB_Action_Scipt import ActionScript
+from ADB_Action_Scipt import ActionScript
 # Import the RC keys and App PKGs for easy scripting
-from daaf.RC_Code import SonyRCKey
-from daaf.AppList import AppList
-import daaf.Power_Tools as pt
+from RC_Code import SonyRCKey
+from AppList import AppList
+import Power_Tools as pt
 
 
-class SampleTkinterLoop:
+class atvAuto:
 
-    def __init__(self, tkRoot):
+    def __init__(self, tkRoot, title):
         # create an instance of the class for ATV Automation
         self.tv = ActionScript()
         self.rc = SonyRCKey()
@@ -23,7 +23,7 @@ class SampleTkinterLoop:
 
         # Initialize tkRoot as the Tk() instance
         self.tkRoot = tkRoot
-        self.tkRoot.title("Major Apps Playback")  # Change title for each test
+        self.tkRoot.title(title)  # Change title for each test
         self.tkRoot.iconbitmap("img/bot_icon.ico")
         self.tkRoot.geometry("1200x480")
 
@@ -130,7 +130,109 @@ class SampleTkinterLoop:
         Label(self.sideFrame, text=textInstruction,
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
 
-    # This needs to go to subclass
+    def stopIt(self):
+        # stop main loop
+        self.loopCount.set(1)
+        self.stopLoop = True
+        # disable stop button
+        self.btnStop.config(state="disabled")
+        # let user know script is stopping
+        x = Label(
+            self.testFrame, text=f'Stopping test..',
+            background=self.bgChooser(),
+            foreground="#a5120d",
+            font=self.boldFont)
+        x.pack(fill=X)
+        # flag gor BG and labels
+        self.bgCounter += 1
+        self.LabelLists.append(x)
+        # allow window to catch up
+        self.tkRoot.update()
+        self.update_scrollbar()
+
+    def start_loop(self):
+        self.stopLoop = False
+        self.watch_loop()
+    
+    def watch_loop(self):
+        # Double threaded function that allows to stop the loop mid execution
+        def repeatIt():
+            # reset UI and flag before starting loop
+            self.resetLabels()
+            self.reset_scrollbar()
+            # enable stop button
+            self.btnStop.config(state="normal")
+            # disable button while loop is running
+            self.btnStart.config(state="disabled")
+            self.txtLoop.config(state="disabled")
+            self.labelLoop.config(text="Remaining Loop:  ")
+
+            while self.loopCount.get() > 0:
+                # move scrollbar to bottom
+                self.testCanvas.yview_moveto(0)
+
+                # Run the test cases
+                self.runThis()
+
+                # Below are just to reset the UI
+                if not self.stopLoop:
+                    print("loop not stopped so proceed")
+                    # let user know script is stopping
+                    x = Label(
+                        self.testFrame, text=f'End of Loop',
+                        background=self.bgChooser(),
+                        foreground="#630984",
+                        font=self.boldFont)
+                    x.pack(fill=X)
+                    # flag gor BG and labels
+                    self.bgCounter += 1
+                    self.LabelLists.append(x)
+                    # allow window to catch up
+                    self.tkRoot.update()
+                    self.update_scrollbar()
+                else:
+                    print("loop has been stopped so not gonna print End of Loop")
+
+                # pause before restarting loop
+                self.loopCount.set(self.loopCount.get()-1)
+                time.sleep(1)
+
+            # disable stop button
+            self.btnStop.config(state="disabled")
+            # re-enable button after loop is done
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            # self.testCanvas.yview_moveto(0)
+            # Let user know the script is done
+            if not self.stopLoop:
+                # loop did not stopped
+                x = Label(
+                    self.testFrame, text=f'Test is done!',
+                    background=self.bgChooser(),
+                    foreground="#057224",
+                    font=self.boldFont)
+                x.pack(fill=X)
+                self.bgCounter += 1
+            else:
+                x = Label(
+                    self.testFrame, text=f'Test stopped!',
+                    background=self.bgChooser(),
+                    foreground="#057224",
+                    font=self.boldFont)
+                x.pack(fill=X)
+                self.bgCounter += 1
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            self.loopCount.set(1)
+            self.LabelLists.append(x)
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+        thread = threading.Thread(target=repeatIt)
+        thread.start()
+
     def startApp(self):
         # Create Label for loop count
         self.labelLoop = Label(
@@ -159,26 +261,23 @@ class SampleTkinterLoop:
             self.sideFrame, text=f'Test Case:',
             font=self.sideFont)
         sideLabel.pack(fill=X)
-        
-        # intruction below
-        self.makeInstructionLabel("Launch HDMI1 with STB")
-        self.makeInstructionLabel("Do Channel change")
-        self.makeInstructionLabel("Do Volume change")
-        self.makeInstructionLabel("Launch Netflix")
-        self.makeInstructionLabel("Playback Netflix Content")
-        self.makeInstructionLabel("Do Trickplay")
-        self.makeInstructionLabel("Do volume change")
-        self.makeInstructionLabel("Launch Amazon")
-        self.makeInstructionLabel("Playback Amazon Content")
-        self.makeInstructionLabel("Do Trickplay")
-        self.makeInstructionLabel("Do volume change")
 
-        # allow window to catch up
+        # Change intruction below based on the testcase
+        self.testCaseInfo()
+
+        # Allow window to refresh
         self.tkRoot.update()
         self.tkRoot.mainloop()
 
+    def testCaseInfo(self):
+        """ This will be overriden by the subclass"""
+        print("Override method..")
+    
+    def runThis(self):
+        """ This will be overriden by the subclass"""
+        print("Override method..")
 
-# Function Template ---------------------------------------------------------------------
+# Create test case inside a function --------------------------------------------------
 
     def sample_testcase(self):
         # each test case 1st check for the stop button flag
@@ -208,7 +307,6 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-# Create test case inside a function --------------------------------------------------
 
     def press_home(self):
         # each test case 1st check for the stop button flag
@@ -262,6 +360,37 @@ class SampleTkinterLoop:
             # Automation Script below --------------------
 
             self.tv.wait_in_second(time_wait)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def wait_minute(self, time_wait):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Waiting {time_wait} minute/s',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(time_wait)
 
             # Automation Script above --------------------
 
@@ -332,7 +461,7 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-    
+
 
     def channel_up(self):
         # each test case 1st check for the stop button flag
@@ -427,14 +556,14 @@ class SampleTkinterLoop:
             print("stopping test")
     
 
-    def launch_stb_input(self):
+    def launch_hdmi_input(self, hdmi):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Launch HDMI1',
+                self.testFrame, text=f'{ts} - Launch {hdmi.upper()}',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -447,7 +576,7 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.press_rc_key(self.rc.HDMI1)
+            self.tv.press_rc_key(getattr(self.rc, hdmi.upper()))
 
             # Automation Script above --------------------
 
@@ -458,14 +587,14 @@ class SampleTkinterLoop:
             print("stopping test")
     
 
-    def launch_bdp_input(self):
+    def press_rc_key(self, key_code):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Launch HDMI2',
+                self.testFrame, text=f'{ts} - Press {key_code.upper()}',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -478,7 +607,7 @@ class SampleTkinterLoop:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.press_rc_key(self.rc.HDMI2)
+            self.tv.press_rc_key(getattr(self.rc, key_code.upper()))
 
             # Automation Script above --------------------
 
@@ -487,7 +616,7 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-    
+
 
     def press_ff(self):
         # each test case 1st check for the stop button flag
@@ -522,7 +651,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    
+
     def press_rw(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -557,7 +686,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
-    
+
     def press_play(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -588,6 +717,7 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def launch_netflix(self):
         if not self.stopLoop:
@@ -622,6 +752,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
+
     def select_netflix_content(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -655,6 +786,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
+
     def playback_netflix(self, pt):
         if not self.stopLoop:
             # get time
@@ -684,6 +816,7 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def launch_amazon(self):
         if not self.stopLoop:
@@ -716,6 +849,7 @@ class SampleTkinterLoop:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def select_amazon_content(self):
         # each test case 1st check for the stop button flag
@@ -754,6 +888,7 @@ class SampleTkinterLoop:
         else:
             print("stopping test")
 
+
     def playback_amazon(self, pt):
         if not self.stopLoop:
             # get time
@@ -785,182 +920,3 @@ class SampleTkinterLoop:
             print("stopping test")
 
 # End of test case inside a function --------------------------------------------------
-
-    def stopIt(self):
-        # stop main loop
-        self.loopCount.set(1)
-        self.stopLoop = True
-        # disable stop button
-        self.btnStop.config(state="disabled")
-        # let user know script is stopping
-        x = Label(
-            self.testFrame, text=f'Stopping test..',
-            background=self.bgChooser(),
-            foreground="#a5120d",
-            font=self.boldFont)
-        x.pack(fill=X)
-        # flag gor BG and labels
-        self.bgCounter += 1
-        self.LabelLists.append(x)
-        # allow window to catch up
-        self.tkRoot.update()
-        self.update_scrollbar()
-
-    def start_loop(self):
-        self.stopLoop = False
-        self.watch_loop()
-
-    # this need to go to the subclass
-    def watch_loop(self):
-        def repeatIt():
-            # reset UI and flag before starting loop
-            self.resetLabels()
-            self.reset_scrollbar()
-            # enable stop button
-            self.btnStop.config(state="normal")
-            # disable button while loop is running
-            self.btnStart.config(state="disabled")
-            self.txtLoop.config(state="disabled")
-            self.labelLoop.config(text="Remaining Loop:  ")
-
-            while self.loopCount.get() > 0:
-                # move scrollbar to bottom
-                self.testCanvas.yview_moveto(0)
-                # assemble test case below -------------------------------------
-
-                # Home Screen
-                self.press_home()
-                self.wait_second(3)
-
-                # Go to HDMI1 Input
-                self.launch_stb_input()
-                self.wait_second(5)
-                
-                # channel Down 3 times
-                for i in range(1, 4):
-                    self.channel_down()
-                    self.wait_second(3)
-                    print(f'CH Down press count: {i}')
-
-                # Channel Up 3 times
-                for i in range(1, 4):
-                    self.channel_up()
-                    self.wait_second(3)
-                    print(f'CH Up press count: {i}')
-                
-                # Volume Up 3 times
-                for i in range(1, 4):
-                    self.volume_up()
-                    print(f'VOL Up press count: {i}')
-                
-                # Volume Down 3 times
-                for i in range(1, 4):
-                    self.volume_down()
-                    print(f'VOL Down press count: {i}')
-                
-                # Launch and playback netflix
-                self.launch_netflix()
-                self.select_netflix_content()
-                self.playback_netflix(self.playback_time)
-
-                # Trickplay
-                self.press_ff()
-                self.press_play()
-                self.press_rw()
-                self.press_play()
-
-                # Volume Up 3 times
-                for i in range(1, 4):
-                    self.volume_up()
-                    print(f'VOL Up press count: {i}')
-                
-                # Volume Down 3 times
-                for i in range(1, 4):
-                    self.volume_down()
-                    print(f'VOL Down press count: {i}')
-
-                # Launch Amazon and Play content
-                self.launch_amazon()
-                self.select_amazon_content()
-                self.playback_amazon(self.playback_time)
-
-                # Trickplay
-                self.press_ff()
-                self.press_play()
-                self.press_rw()
-                self.press_play()
-
-                # Volume Up 3 times
-                for i in range(1, 4):
-                    self.volume_up()
-                    print(f'VOL Up press count: {i}')
-                
-                # Volume Down 3 times
-                for i in range(1, 4):
-                    self.volume_down()
-                    print(f'VOL Down press count: {i}')
-
-                # Below are just to reset the UI ---------------------------------
-
-                if not self.stopLoop:
-                    print("loop not stopped so proceed")
-                    # let user know script is stopping
-                    x = Label(
-                        self.testFrame, text=f'End of Loop',
-                        background=self.bgChooser(),
-                        foreground="#630984",
-                        font=self.boldFont)
-                    x.pack(fill=X)
-                    # flag gor BG and labels
-                    self.bgCounter += 1
-                    self.LabelLists.append(x)
-                    # allow window to catch up
-                    self.tkRoot.update()
-                    self.update_scrollbar()
-                else:
-                    print("loop has been stopped so not gonna print End of Loop")
-
-                # pause before restarting loop
-                self.loopCount.set(self.loopCount.get()-1)
-                time.sleep(1)
-
-            # disable stop button
-            self.btnStop.config(state="disabled")
-            # re-enable button after loop is done
-            self.btnStart.config(state="normal")
-            self.txtLoop.config(state="normal")
-            self.labelLoop.config(text="Enter Loop count: ")
-            # self.testCanvas.yview_moveto(0)
-            # Let user know the script is done
-            if not self.stopLoop:
-                # loop did not stopped
-                x = Label(
-                    self.testFrame, text=f'Test is done!',
-                    background=self.bgChooser(),
-                    foreground="#057224",
-                    font=self.boldFont)
-                x.pack(fill=X)
-                self.bgCounter += 1
-            else:
-                x = Label(
-                    self.testFrame, text=f'Test stopped!',
-                    background=self.bgChooser(),
-                    foreground="#057224",
-                    font=self.boldFont)
-                x.pack(fill=X)
-                self.bgCounter += 1
-            self.btnStart.config(state="normal")
-            self.txtLoop.config(state="normal")
-            self.labelLoop.config(text="Enter Loop count: ")
-            self.loopCount.set(1)
-            self.LabelLists.append(x)
-            # allow window to catch up
-            self.tkRoot.update()
-            self.update_scrollbar()
-        thread = threading.Thread(target=repeatIt)
-        thread.start()
-
-
-root = Tk()
-LoopTest = SampleTkinterLoop(root)
-LoopTest.startApp()
