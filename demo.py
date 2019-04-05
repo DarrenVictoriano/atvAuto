@@ -27,31 +27,37 @@ class SampleTkinterLoop:
         self.tkRoot.iconbitmap("img/bot_icon.ico")
         self.tkRoot.geometry("1200x480")
 
-        # Create frame for header and test area
+        # Create frame for header
         self.headerFrame = ttk.Frame(self.tkRoot)
         self.headerFrame.pack(fill=X)
 
+        # Create canvas and frame for Testcase Instructions
         self.sideCanvas = Canvas(self.tkRoot)
         self.sideCanvas.pack(fill=BOTH, side=LEFT)
 
         self.sideFrame = ttk.Frame(self.sideCanvas)
         self.sideFrame.pack(fill=BOTH, side=LEFT)
 
+        # Create canvas for Testcase running
         self.testCanvas = Canvas(self.tkRoot)
         self.testCanvas.pack(fill=BOTH, side=LEFT, expand=True)
 
+        # add scrollbar inside testcase canvas
         self.scrollbar = Scrollbar(self.tkRoot, command=self.testCanvas.yview)
         self.scrollbar.pack(fill=Y, side=RIGHT, expand=False)
 
+        # Create frame for Testcase running
         self.testFrame = ttk.Frame(self.testCanvas)
         self.testFrame.pack(fill=BOTH, side=LEFT, expand=True)
 
         # configure canvas and scrollbar
         self.testCanvas.configure(yscrollcommand=self.scrollbar.set)
-        # put frame in canvas
+
+        # put sideframe in sidecanvas
         self.sideCanvas.create_window(
             (0, 0), window=self.sideFrame, anchor='nw', width=400)
 
+        # put testFrame in testCanvas
         self.testCanvas.create_window(
             (0, 0), window=self.testFrame, anchor='nw', width=800)
 
@@ -82,24 +88,28 @@ class SampleTkinterLoop:
         self.playback_time = 0.3
 
     def on_configure(self, event):
-        # update scrollregion after starting 'mainloop'
-        # then move scrollbar on the bottom
+        """
+        update scrollregion after starting 'mainloop'
+        then move scrollbar on the bottom 
+        """
         self.testCanvas.configure(scrollregion=self.testCanvas.bbox('all'))
         self.testCanvas.yview_moveto(1)
 
     def off_configure(self, event):
-        # update scrollregion after starting 'mainloop'
-        # then move scrollbar on the topmost
+        """
+        update scrollregion after starting 'mainloop'
+        then move scrollbar on the topmost
+        """
         self.testCanvas.configure(scrollregion=self.testCanvas.bbox('all'))
         self.testCanvas.yview_moveto(0)
 
     def update_scrollbar(self):
-        # call on_configure everytime canvas and frame change size
+        """call on_configure everytime canvas and frame change size"""
         self.testCanvas.bind('<Configure>', self.on_configure)
         self.testFrame.bind('<Configure>', self.on_configure)
 
     def reset_scrollbar(self):
-        # call off_configure everytime canvas and frame change size
+        """call off_configure everytime canvas and frame change size"""
         self.testCanvas.bind('<Configure>', self.off_configure)
         self.testFrame.bind('<Configure>', self.off_configure)
 
@@ -114,6 +124,11 @@ class SampleTkinterLoop:
         for label in self.LabelLists:
             label.destroy()
         self.tkRoot.update()
+    
+    def makeInstructionLabel(self, textInstruction):
+        """ Make label and pack it on the side for instructions"""
+        Label(self.sideFrame, text=textInstruction,
+              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
 
     def startApp(self):
         # Create Label for loop count
@@ -121,47 +136,42 @@ class SampleTkinterLoop:
             self.headerFrame, text=f'Enter Loop count: ',
             font=self.mainFont)
         self.labelLoop.pack(fill=X, side=LEFT)
+
         # Create Textbox for loop count
         self.txtLoop = Entry(self.headerFrame, font=self.mainFont,
                              textvariable=self.loopCount)
         self.txtLoop.pack(fill=X, side=LEFT)
+
         # Create start button
         self.btnStart = Button(self.headerFrame, text="Start Test",
                                font=self.buttonFont, command=self.start_loop, padx=55)
         self.btnStart.pack(fill=X, side=LEFT)
+
         # Create stop button
         self.btnStop = Button(self.headerFrame, text="Stop Test",
                               font=self.buttonFont, command=self.stopIt, padx=55)
         self.btnStop.pack(fill=X, side=LEFT)
         self.btnStop.config(state="disabled")
-        # Instruction Pane ----------------
+
+        # Initialize Instruction Pane ----------------
         sideLabel = Label(
             self.sideFrame, text=f'Test Case:',
             font=self.sideFont)
         sideLabel.pack(fill=X)
+        
         # intruction below
-        Label(self.sideFrame, text=f'Launch HDMI1 with STB',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do channel change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do volume change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch Netflix',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Playback content',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)   
-        Label(self.sideFrame, text=f'Do Trickplay',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do volume change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Launch Amazon',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Playback content',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)   
-        Label(self.sideFrame, text=f'Do Trickplay',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
-        Label(self.sideFrame, text=f'Do volume change',
-              font=self.sideFont, anchor='w').pack(fill=X, padx=10)
+        self.makeInstructionLabel("Launch HDMI1 with STB")
+        self.makeInstructionLabel("Do Channel change")
+        self.makeInstructionLabel("Do Volume change")
+        self.makeInstructionLabel("Launch Netflix")
+        self.makeInstructionLabel("Playback Netflix Content")
+        self.makeInstructionLabel("Do Trickplay")
+        self.makeInstructionLabel("Do volume change")
+        self.makeInstructionLabel("Launch Amazon")
+        self.makeInstructionLabel("Playback Amazon Content")
+        self.makeInstructionLabel("Do Trickplay")
+        self.makeInstructionLabel("Do volume change")
+
         # allow window to catch up
         self.tkRoot.update()
         self.tkRoot.mainloop()
