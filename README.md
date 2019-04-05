@@ -17,3 +17,5 @@ This is an automation tool based on `DAAF` framework, `atvAuto` added a Graphica
 
 
 * You should see the screen below; Enter how many loops you want the script to repeat then click "Start" button
+![demo.py](https://raw.githubusercontent.com/DarrenVictoriano/atvAuto/master/img/demo_screenshot.PNG)
+
