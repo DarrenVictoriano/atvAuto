@@ -153,8 +153,8 @@ class atvAuto:
     def start_loop(self):
         self.stopLoop = False
         self.watch_loop()
-        
-# Function Template ---------------------------------------------------------------------
+
+# Create test case inside a function --------------------------------------------------
 
     def sample_testcase(self):
         # each test case 1st check for the stop button flag
@@ -183,8 +183,6 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-
-# Create test case inside a function --------------------------------------------------
 
     def press_home(self):
         # each test case 1st check for the stop button flag
@@ -308,7 +306,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-    
+
 
     def channel_up(self):
         # each test case 1st check for the stop button flag
@@ -463,7 +461,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
-    
+
 
     def press_ff(self):
         # each test case 1st check for the stop button flag
@@ -498,7 +496,7 @@ class atvAuto:
         else:
             print("stopping test")
 
-    
+
     def press_rw(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -533,7 +531,7 @@ class atvAuto:
         else:
             print("stopping test")
 
-    
+
     def press_play(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -564,6 +562,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def launch_netflix(self):
         if not self.stopLoop:
@@ -598,6 +597,7 @@ class atvAuto:
         else:
             print("stopping test")
 
+
     def select_netflix_content(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
@@ -631,6 +631,7 @@ class atvAuto:
         else:
             print("stopping test")
 
+
     def playback_netflix(self, pt):
         if not self.stopLoop:
             # get time
@@ -660,6 +661,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def launch_amazon(self):
         if not self.stopLoop:
@@ -692,6 +694,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def select_amazon_content(self):
         # each test case 1st check for the stop button flag
@@ -730,6 +733,7 @@ class atvAuto:
         else:
             print("stopping test")
 
+
     def playback_amazon(self, pt):
         if not self.stopLoop:
             # get time
@@ -761,6 +765,3 @@ class atvAuto:
             print("stopping test")
 
 # End of test case inside a function --------------------------------------------------
-
-
-
