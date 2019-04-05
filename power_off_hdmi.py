@@ -42,21 +42,22 @@ class Demo(atvAuto):
         # Do Channel Up every 10 minutes for 1 hour
         for i in range(1, 4):
             self.channel_up()
-            self.wait_minute(self.playback_time)
+            self.wait_minute(10)
+
         # Do Channel Down every 10 minutes for 1 hour
         for i in range(1, 4):
             self.channel_down()
-            self.wait_minute(self.playback_time)
+            self.wait_minute(10)
 
         # Launch and playback Netflix
         self.launch_netflix()
         self.select_netflix_content()
-        self.playback_netflix(self.playback_time)
+        self.playback_netflix(60)
 
         # Launch and Playback Amazon
         self.launch_amazon()
         self.select_amazon_content()
-        self.playback_amazon(self.playback_time)
+        self.playback_amazon(60)
 
         # launch HDMI input
         self.press_home()
@@ -66,11 +67,11 @@ class Demo(atvAuto):
         # Do Channel Up every 10 minutes for 1 hour
         for i in range(1, 4):
             self.channel_up()
-            self.wait_minute(self.playback_time)
+            self.wait_minute(10)
         # Do Channel Down every 10 minutes for 1 hour
         for i in range(1, 4):
             self.channel_down()
-            self.wait_minute(self.playback_time)
+            self.wait_minute(10)
 
         self.press_rc_key("POWER")
 
