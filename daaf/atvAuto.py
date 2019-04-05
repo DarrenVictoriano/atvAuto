@@ -155,8 +155,127 @@ class atvAuto:
         self.watch_loop()
     
     def watch_loop(self):
-        """ This will be override by subclass"""
-        print("Override this method")
+        # Double threaded function that allows to stop the loop mid execution
+        def repeatIt():
+            # reset UI and flag before starting loop
+            self.resetLabels()
+            self.reset_scrollbar()
+            # enable stop button
+            self.btnStop.config(state="normal")
+            # disable button while loop is running
+            self.btnStart.config(state="disabled")
+            self.txtLoop.config(state="disabled")
+            self.labelLoop.config(text="Remaining Loop:  ")
+
+            while self.loopCount.get() > 0:
+                # move scrollbar to bottom
+                self.testCanvas.yview_moveto(0)
+
+                # Run the test cases
+                self.runThis()
+
+                # Below are just to reset the UI
+                if not self.stopLoop:
+                    print("loop not stopped so proceed")
+                    # let user know script is stopping
+                    x = Label(
+                        self.testFrame, text=f'End of Loop',
+                        background=self.bgChooser(),
+                        foreground="#630984",
+                        font=self.boldFont)
+                    x.pack(fill=X)
+                    # flag gor BG and labels
+                    self.bgCounter += 1
+                    self.LabelLists.append(x)
+                    # allow window to catch up
+                    self.tkRoot.update()
+                    self.update_scrollbar()
+                else:
+                    print("loop has been stopped so not gonna print End of Loop")
+
+                # pause before restarting loop
+                self.loopCount.set(self.loopCount.get()-1)
+                time.sleep(1)
+
+            # disable stop button
+            self.btnStop.config(state="disabled")
+            # re-enable button after loop is done
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            # self.testCanvas.yview_moveto(0)
+            # Let user know the script is done
+            if not self.stopLoop:
+                # loop did not stopped
+                x = Label(
+                    self.testFrame, text=f'Test is done!',
+                    background=self.bgChooser(),
+                    foreground="#057224",
+                    font=self.boldFont)
+                x.pack(fill=X)
+                self.bgCounter += 1
+            else:
+                x = Label(
+                    self.testFrame, text=f'Test stopped!',
+                    background=self.bgChooser(),
+                    foreground="#057224",
+                    font=self.boldFont)
+                x.pack(fill=X)
+                self.bgCounter += 1
+            self.btnStart.config(state="normal")
+            self.txtLoop.config(state="normal")
+            self.labelLoop.config(text="Enter Loop count: ")
+            self.loopCount.set(1)
+            self.LabelLists.append(x)
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+        thread = threading.Thread(target=repeatIt)
+        thread.start()
+
+    def startApp(self):
+        # Create Label for loop count
+        self.labelLoop = Label(
+            self.headerFrame, text=f'Enter Loop count: ',
+            font=self.mainFont)
+        self.labelLoop.pack(fill=X, side=LEFT)
+
+        # Create Textbox for loop count
+        self.txtLoop = Entry(self.headerFrame, font=self.mainFont,
+                             textvariable=self.loopCount)
+        self.txtLoop.pack(fill=X, side=LEFT)
+
+        # Create start button
+        self.btnStart = Button(self.headerFrame, text="Start Test",
+                               font=self.buttonFont, command=self.start_loop, padx=55)
+        self.btnStart.pack(fill=X, side=LEFT)
+
+        # Create stop button
+        self.btnStop = Button(self.headerFrame, text="Stop Test",
+                              font=self.buttonFont, command=self.stopIt, padx=55)
+        self.btnStop.pack(fill=X, side=LEFT)
+        self.btnStop.config(state="disabled")
+
+        # Initialize Instruction Pane ----------------
+        sideLabel = Label(
+            self.sideFrame, text=f'Test Case:',
+            font=self.sideFont)
+        sideLabel.pack(fill=X)
+
+        # Change intruction below based on the testcase
+        self.testCaseInfo()
+
+        # Allow window to refresh
+        self.tkRoot.update()
+        self.tkRoot.mainloop()
+
+    def testCaseInfo(self):
+        """ This will be overriden by the subclass"""
+        print("Override method..")
+    
+    def runThis(self):
+        """ This will be overriden by the subclass"""
+        print("Override method..")
 
 # Create test case inside a function --------------------------------------------------
 
@@ -187,6 +306,7 @@ class atvAuto:
             self.LabelLists.append(x)
         else:
             print("stopping test")
+
 
     def press_home(self):
         # each test case 1st check for the stop button flag
@@ -240,6 +360,37 @@ class atvAuto:
             # Automation Script below --------------------
 
             self.tv.wait_in_second(time_wait)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+    
+    def wait_minute(self, time_wait):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Waiting {time_wait} minute/s',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(time_wait)
 
             # Automation Script above --------------------
 
@@ -405,14 +556,14 @@ class atvAuto:
             print("stopping test")
     
 
-    def launch_stb_input(self):
+    def launch_hdmi_input(self, hdmi):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Launch HDMI1',
+                self.testFrame, text=f'{ts} - Launch {hdmi.upper()}',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -425,7 +576,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.press_rc_key(self.rc.HDMI1)
+            self.tv.press_rc_key(getattr(self.rc, hdmi.upper()))
 
             # Automation Script above --------------------
 
@@ -436,14 +587,14 @@ class atvAuto:
             print("stopping test")
     
 
-    def launch_bdp_input(self):
+    def press_rc_key(self, key_code):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Launch HDMI2',
+                self.testFrame, text=f'{ts} - Press {key_code.upper()}',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -456,7 +607,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.press_rc_key(self.rc.HDMI2)
+            self.tv.press_rc_key(getattr(self.rc, key_code.upper()))
 
             # Automation Script above --------------------
 

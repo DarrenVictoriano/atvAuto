@@ -152,7 +152,7 @@ class Demo(atvAuto):
         self.wait_second(3)
 
         # Go to HDMI1 Input
-        self.launch_stb_input()
+        self.launch_hdmi_input("HDMI1")
         self.wait_second(5)
 
         # channel Down 3 times
