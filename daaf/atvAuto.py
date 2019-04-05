@@ -153,6 +153,10 @@ class atvAuto:
     def start_loop(self):
         self.stopLoop = False
         self.watch_loop()
+    
+    def watch_loop(self):
+        """ This will be override by subclass"""
+        print("Override this method")
 
 # Create test case inside a function --------------------------------------------------
 
