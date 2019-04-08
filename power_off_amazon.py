@@ -19,6 +19,8 @@ class Demo(atvAuto):
     def __init__(self, tkRoot):
         """ Initialize the UI and then Set Title Header"""
         super().__init__(tkRoot, "Power OFF Amazon")  # Update the string
+
+        # this is in minutes
         self.playback_time = 0.1
 
     def testCaseInfo(self):
