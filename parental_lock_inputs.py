@@ -23,13 +23,14 @@ from daaf.atvAuto import atvAuto
 
 class TestScript(atvAuto):
 
-    def __init__(self, tkRoot):
+    def __init__(self, tkRoot, hdmi):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, "Template")
+        super().__init__(tkRoot, "Parental Lock Inputs")
 
         # this is in minutes
         self.playback_time = 1
+        self.hdmi_to_test = hdmi
 
     def testCaseInfo(self):
         """ 
@@ -37,20 +38,36 @@ class TestScript(atvAuto):
         This is the one that shows on the left side of the screen
         Each call of the 'makeInstructionLabel' is one line
         """
-        self.makeInstructionLabel("Press Power Key")
-        self.makeInstructionLabel("Wait 5 seconds")
+        self.makeInstructionLabel("Launch Parental Lock Activity")
+        self.makeInstructionLabel("Input PIN Code")
+        self.makeInstructionLabel(f'Lock HDMI{self.hdmi_to_test}')
+        self.makeInstructionLabel(
+            f'Tune to verify HDMI{self.hdmi_to_test} is locked')
 
     def runThis(self):
         """
         Below is where you assemble test cases
         """
 
-        # Press RC POWER Key
-        self.press_rc_key("POWER")
+        # Launch Parental Lock
+        self.launch_parental_lock()
+        self.enter_parental_pass()
+
+        # Lock or Unlock HDMI
+        self.lock_unlock_hdmi(self.hdmi_to_test)
+        self.wait_second(2)
+
+        # Tune to the locked HDMI
+        self.press_home()
+        self.wait_second(2)
+        self.launch_hdmi_input(f'HDMI{self.hdmi_to_test}')
         self.wait_second(3)
 
 
 
+# Select HDMI
+hdmi = input("Enter which HDMI you want to test (1, 2, 3 or 4): ")
+
 # Start the script
 root = Tk()
-TestScript(root).startApp()
+TestScript(root, hdmi).startApp()

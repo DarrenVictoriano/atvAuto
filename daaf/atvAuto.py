@@ -787,7 +787,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_netflix(self, pt):
+    def playback_netflix(self, playtime):
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -807,7 +807,7 @@ class atvAuto:
 
             # Automation Script below --------------------
             # playback time
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
 
             # Automation Script above --------------------
 
@@ -889,7 +889,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_amazon(self, pt):
+    def playback_amazon(self, playtime):
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -909,7 +909,7 @@ class atvAuto:
 
             # Automation Script below --------------------
             # playback time
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
 
             # Automation Script above --------------------
 
@@ -988,7 +988,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_hulu(self, pt):
+    def playback_hulu(self, playtime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1008,7 +1008,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
 
             # Automation Script above --------------------
 
@@ -1095,7 +1095,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_vudu(self, pt):
+    def playback_vudu(self, playtime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1115,7 +1115,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
 
             # Automation Script above --------------------
 
@@ -1196,7 +1196,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_youtube(self, pt):
+    def playback_youtube(self, playtime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1216,7 +1216,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
 
             # Automation Script above --------------------
 
@@ -1299,7 +1299,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def playback_psvue(self, pt):
+    def playback_psvue(self, playtime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1319,7 +1319,7 @@ class atvAuto:
             time.sleep(1)
             # Automation Script below --------------------
 
-            self.tv.wait_in_minute(pt)
+            self.tv.wait_in_minute(playtime)
             
             # Automation Script above --------------------
 
@@ -1329,5 +1329,125 @@ class atvAuto:
         else:
             print("stopping test")
 
+
+    def launch_parental_lock(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch Parental Lock',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+            
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+
+            self.tv.clear_launch_app(
+            self.app.PARENTAL_LOCK_PKG, self.app.PARENTAL_LOCK_ACT)
+            self.tv.wait_in_second(2)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def enter_parental_pass(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Entering PIN',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+            
+            # Enter Pin
+            for i in range(0, 4):
+                print(f'Press Enter {i}')
+                self.tv.press_rc_key(self.rc.ENTER)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def lock_unlock_hdmi(self, hdmi):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Lock/Unlock HDMI{hdmi}',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+            
+            # select 'External Input Block'
+            for i in range(0, 3):
+                self.tv.press_rc_key(self.rc.DOWN)
+
+            self.tv.press_rc_key(self.rc.ENTER)
+
+            if hdmi == '1':
+                self.tv.press_rc_key(self.rc.ENTER)
+            elif hdmi == '2':
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.ENTER)
+            elif hdmi == '3':
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.ENTER)
+            elif hdmi == '4':
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.DOWN)
+                self.tv.press_rc_key(self.rc.ENTER)
+
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
 
 # End of test case inside a function --------------------------------------------------
