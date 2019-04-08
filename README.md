@@ -103,6 +103,10 @@ Below is a list of pre-defined test cases that you can use for creating an autom
   * **self.select_youtube_content()** - Select a content for youtube then start playback.
   * **self.playback_youtube(time)** - Pause the script to let the content plaback for the specified `time` as minutes.
 
+  * **self.launch_psvue()** - Launch Netflix using ADB `am start` command, this will clear the app from memory before launching it.
+  * **self.select_psvue_content()** - Select a content for psvue then start playback.
+  * **self.playback_psvue(time)** - Pause the script to let the content plaback for the specified `time` as minutes.
+
 
 <br>
 
