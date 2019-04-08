@@ -153,7 +153,7 @@ class SampleTkinterLoop:
         self.tkRoot.mainloop()
 
 
-# Function Template --------------------------------------------------------------------
+# Function Template ---------------------------------------------------------------------
 
     def sample_testcase(self):
         # each test case 1st check for the stop button flag
@@ -162,7 +162,7 @@ class SampleTkinterLoop:
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Sample test case running',
+                self.testFrame, text=f'{ts} - Sample test case',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -686,14 +686,19 @@ class SampleTkinterLoop:
         self.stopLoop = True
         # disable stop button
         self.btnStop.config(state="disabled")
-        # let user know
+        # let user know script is stopping
         x = Label(
             self.testFrame, text=f'Stopping test..',
             background=self.bgChooser(),
             foreground="#a5120d",
             font=self.boldFont)
         x.pack(fill=X)
+        # flag gor BG and labels
+        self.bgCounter += 1
         self.LabelLists.append(x)
+        # allow window to catch up
+        self.tkRoot.update()
+        self.update_scrollbar()
 
     def start_loop(self):
         self.stopLoop = False
@@ -703,6 +708,7 @@ class SampleTkinterLoop:
         def repeatIt():
             # reset UI and flag before starting loop
             self.resetLabels()
+            self.reset_scrollbar()
             # enable stop button
             self.btnStop.config(state="normal")
             # disable button while loop is running
@@ -713,7 +719,7 @@ class SampleTkinterLoop:
             while self.loopCount.get() > 0:
                 # move scrollbar to bottom
                 self.testCanvas.yview_moveto(0)
-                # assemble test case below ---------------------------------------
+                # assemble test case below -------------------------------------
 
                 self.launch_netflix()
                 self.select_netflix_content()
@@ -736,10 +742,24 @@ class SampleTkinterLoop:
                 self.playback_youtube(self.playback_time)
 
                 # Below are just to reset the UI ---------------------------------
-                # update and reset testFrame after all function run
-                self.resetLabels()
-                self.reset_scrollbar()
-                self.tkRoot.update()
+
+                if not self.stopLoop:
+                    print("loop not stopped so proceed")
+                    # let user know script is stopping
+                    x = Label(
+                        self.testFrame, text=f'End of Loop',
+                        background=self.bgChooser(),
+                        foreground="#a5120d",
+                        font=self.boldFont)
+                    x.pack(fill=X)
+                    # flag gor BG and labels
+                    self.bgCounter += 1
+                    self.LabelLists.append(x)
+                    # allow window to catch up
+                    self.tkRoot.update()
+                    self.update_scrollbar()
+                else:
+                    print("loop has been stopped so not gonna print End of Loop")
 
                 # pause before restarting loop
                 self.loopCount.set(self.loopCount.get()-1)
@@ -751,7 +771,7 @@ class SampleTkinterLoop:
             self.btnStart.config(state="normal")
             self.txtLoop.config(state="normal")
             self.labelLoop.config(text="Enter Loop count: ")
-            self.testCanvas.yview_moveto(0)
+            # self.testCanvas.yview_moveto(0)
             # Let user know the script is done
             if not self.stopLoop:
                 # loop did not stopped
@@ -761,6 +781,7 @@ class SampleTkinterLoop:
                     foreground="#a5120d",
                     font=self.boldFont)
                 x.pack(fill=X)
+                self.bgCounter += 1
             else:
                 x = Label(
                     self.testFrame, text=f'Test stopped!',
@@ -768,12 +789,15 @@ class SampleTkinterLoop:
                     foreground="#a5120d",
                     font=self.boldFont)
                 x.pack(fill=X)
+                self.bgCounter += 1
             self.btnStart.config(state="normal")
             self.txtLoop.config(state="normal")
             self.labelLoop.config(text="Enter Loop count: ")
-            self.testCanvas.yview_moveto(0)
             self.loopCount.set(5)
             self.LabelLists.append(x)
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
         thread = threading.Thread(target=repeatIt)
         thread.start()
 
