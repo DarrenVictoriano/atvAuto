@@ -41,11 +41,13 @@ class Demo(atvAuto):
 
         # Do Channel Up every 10 minutes for 1 hour
         for i in range(1, 4):
+            print(f'loop count {i}')
             self.channel_up()
             self.wait_minute(10)
 
         # Do Channel Down every 10 minutes for 1 hour
         for i in range(1, 4):
+            print(f'loop count {i}')
             self.channel_down()
             self.wait_minute(10)
 
@@ -66,10 +68,12 @@ class Demo(atvAuto):
 
         # Do Channel Up every 10 minutes for 1 hour
         for i in range(1, 4):
+            print(f'loop count {i}')
             self.channel_up()
             self.wait_minute(10)
         # Do Channel Down every 10 minutes for 1 hour
         for i in range(1, 4):
+            print(f'loop count {i}')
             self.channel_down()
             self.wait_minute(10)
 

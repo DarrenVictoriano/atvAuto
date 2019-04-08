@@ -919,4 +919,312 @@ class atvAuto:
         else:
             print("stopping test")
 
+
+    def launch_hulu(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launching Hulu',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+            self.tv.clear_launch_app(self.app.HULU_PKG, self.app.HULU_ACT)
+            self.tv.wait_in_second(10)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def select_hulu_content(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Selecting content for playback',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def playback_hulu(self, pt):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback Hulu',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(pt)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def launch_vudu(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launching Vudu',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+            self.tv.clear_launch_app(self.app.VUDU_PKG, self.app.VUDU_ACT)
+            self.tv.wait_in_second(10)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def select_vudu_content(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Selecting content for playback',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+            
+            self.tv.press_rc_key(self.rc.RIGHT)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.RIGHT)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.DOWN)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def playback_vudu(self, pt):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback Vudu',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(pt)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def launch_youtube(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launching YouTube',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+            self.tv.force_stop_app(self.app.YOUTUBE_PKG)
+            self.tv.wait_in_second(1)
+            self.tv.launch_app(self.app.YOUTUBE_PKG)
+            self.tv.wait_in_second(10)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def select_youtube_content(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Selecting content for playback',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.RIGHT)
+            self.tv.wait_in_second(1)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def playback_youtube(self, pt):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback YouTube',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(pt)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
 # End of test case inside a function --------------------------------------------------
