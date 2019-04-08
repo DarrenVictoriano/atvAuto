@@ -25,7 +25,7 @@ This is an automation tool based on `DAAF` framework, `atvAuto` added a Graphica
 2. Copy the code from the file template.py to your new script file.
 3. Update the boilerplate like below:
 
-   * First the `__init__` function, change the "Teplate" test, this will be the Title Header of the script. And the `self.playback_time` based on long you want the script to playback the content.
+   * First the `__init__` function, change the "Template" text, this will be the Title Header of the script. And set the `self.playback_time` based on long you want the script to playback the content. (this takes a number equivalent to minutes of playback)
 
             def __init__(self, tkRoot):
                 """ Initialize the UI and then Set Title Header"""
@@ -102,6 +102,10 @@ Below is a list of pre-defined test cases that you can use for creating an autom
   * **self.launch_youtube()** - Launch Netflix using ADB `am start` command, this will clear the app from memory before launching it.
   * **self.select_youtube_content()** - Select a content for youtube then start playback.
   * **self.playback_youtube(time)** - Pause the script to let the content plaback for the specified `time` as minutes.
+
+  * **self.launch_psvue()** - Launch Netflix using ADB `am start` command, this will clear the app from memory before launching it.
+  * **self.select_psvue_content()** - Select a content for psvue then start playback.
+  * **self.playback_psvue(time)** - Pause the script to let the content plaback for the specified `time` as minutes.
 
 
 <br>

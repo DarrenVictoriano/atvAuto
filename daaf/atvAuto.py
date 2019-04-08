@@ -1227,4 +1227,107 @@ class atvAuto:
             print("stopping test")
 
 
+    def launch_psvue(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Launch PSVue',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+            
+            self.tv.press_rc_key(self.rc.HOME)
+            self.tv.wait_in_second(1)
+
+            self.tv.clear_launch_app(
+            self.app.PSVUE_PKG, self.app.PSVUE_ACT)
+
+            self.tv.wait_in_second(10)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def select_psvue_content(self):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Selecting content for playback',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
+
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(1)
+
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
+    def playback_psvue(self, pt):
+        # each test case 1st check for the stop button flag
+        if not self.stopLoop:
+            # get time
+            ts = datetime.datetime.now().strftime(self.tsFormat)
+            # Create label
+            x = Label(
+                self.testFrame, text=f'{ts} - Playback PSVue',
+                background=self.bgChooser(),
+                foreground="#a5120d",
+                font=self.boldFont, anchor='w')
+            x.pack(fill=X)
+            # add counter for BG
+            self.bgCounter += 1
+            # allow window to catch up
+            self.tkRoot.update()
+            self.update_scrollbar()
+            time.sleep(1)
+            # Automation Script below --------------------
+
+            self.tv.wait_in_minute(pt)
+            
+            # Automation Script above --------------------
+
+            # revert label color to black
+            x.config(foreground="#000", font=self.mainFont)
+            self.LabelLists.append(x)
+        else:
+            print("stopping test")
+
+
 # End of test case inside a function --------------------------------------------------
