@@ -774,6 +774,8 @@ class atvAuto:
             # Automation Script below --------------------
 
             self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(3)
+            self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(2)
             self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(2)
