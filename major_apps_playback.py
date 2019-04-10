@@ -29,7 +29,7 @@ class TestScript(atvAuto):
         super().__init__(tkRoot, f'Major Apps, Uroboros{tvSet}')
 
         # this is in minutes
-        self.playback_time = 1
+        self.playback_time = 60
         self.tvSet = tvSet
 
     def testCaseInfo(self):
