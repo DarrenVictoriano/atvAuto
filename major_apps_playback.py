@@ -23,13 +23,14 @@ from daaf.atvAuto import atvAuto
 
 class TestScript(atvAuto):
 
-    def __init__(self, tkRoot):
+    def __init__(self, tkRoot, tvSet):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, "Major Apps")
+        super().__init__(tkRoot, f'Major Apps, Uroboros{tvSet}')
 
         # this is in minutes
         self.playback_time = 1
+        self.tvSet = tvSet
 
     def testCaseInfo(self):
         """ 
@@ -53,7 +54,7 @@ class TestScript(atvAuto):
 
         # Launch and Playback Netflix
         self.launch_netflix()
-        self.select_netflix_content()
+        self.select_netflix_content(self.tvSet)
         self.playback_netflix(self.playback_time)
 
         # Launch and Playback Amazon
@@ -72,6 +73,9 @@ class TestScript(atvAuto):
         self.playback_youtube(self.playback_time)
 
 
+tvSetArg = input(
+    "Enter '1' for Uroboros1 and Trinity,\n      '2' for Uroboros2 (enter 1 or 2): ")
+
 # Start the script
 root = Tk()
-TestScript(root).startApp()
+TestScript(root, tvSetArg).startApp()
