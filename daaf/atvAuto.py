@@ -774,6 +774,8 @@ class atvAuto:
             # Automation Script below --------------------
 
             self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(3)
+            self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(2)
             self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(2)
@@ -1041,7 +1043,7 @@ class atvAuto:
 
             self.tv.press_rc_key(self.rc.HOME)
             self.tv.wait_in_second(1)
-            self.tv.clear_launch_app(self.app.VUDU_PKG, self.app.VUDU_ACT)
+            self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(10)
 
             # Automation Script above --------------------
