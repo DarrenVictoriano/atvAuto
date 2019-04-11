@@ -753,7 +753,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def select_netflix_content(self, tvSet):
+    def select_netflix_content(self):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -776,22 +776,14 @@ class atvAuto:
             self.tv.press_rc_key(self.rc.ENTER)
             self.tv.wait_in_second(3)
 
-            if tvSet == '1':
-                self.tv.press_rc_key(self.rc.DOWN)
-                self.tv.wait_in_second(2)
-                self.tv.press_rc_key(self.rc.ENTER)
-                self.tv.wait_in_second(2)
-                self.tv.press_rc_key(self.rc.ENTER)
-                self.tv.wait_in_second(2)
-            else:
-                self.tv.press_rc_key(self.rc.ENTER)
-                self.tv.wait_in_second(2)
-                self.tv.press_rc_key(self.rc.DOWN)
-                self.tv.wait_in_second(2)
-                self.tv.press_rc_key(self.rc.ENTER)
-                self.tv.wait_in_second(2)
-                self.tv.press_rc_key(self.rc.ENTER)
-                self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.DOWN)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
+            self.tv.press_rc_key(self.rc.ENTER)
+            self.tv.wait_in_second(2)
 
             # Automation Script above --------------------
 

@@ -26,11 +26,11 @@ class TestScript(atvAuto):
     def __init__(self, tkRoot, hdmi):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, f'Parental Lock Inputs (HDMI{hdmi})')
+        super().__init__(tkRoot, f'Channel Up/Down HMDI{hdmi}')
 
         # this is in minutes
         self.playback_time = 1
-        self.hdmi_to_test = hdmi
+        self.hdmiTest = hdmi
 
     def testCaseInfo(self):
         """ 
@@ -38,31 +38,31 @@ class TestScript(atvAuto):
         This is the one that shows on the left side of the screen
         Each call of the 'makeInstructionLabel' is one line
         """
-        self.makeInstructionLabel("Launch Parental Lock Activity")
-        self.makeInstructionLabel("Input PIN Code")
-        self.makeInstructionLabel(f'Lock HDMI{self.hdmi_to_test}')
-        self.makeInstructionLabel(
-            f'Tune to verify HDMI{self.hdmi_to_test} is locked')
+        self.makeInstructionLabel(f'Tune to HDMI{hdmi} for 1 hour')
+        self.makeInstructionLabel("Channel Change every 10 minutes")
 
     def runThis(self):
         """
         Below is where you assemble test cases
         """
 
-        # Launch Parental Lock
-        self.launch_parental_lock()
-        self.enter_parental_pass()
-
-        # Lock or Unlock HDMI
-        self.lock_unlock_hdmi(self.hdmi_to_test)
-        self.wait_second(2)
-
-        # Tune to the locked HDMI
+        # launch HDMI input
         self.press_home()
-        self.wait_second(2)
-        self.launch_hdmi_input(f'HDMI{self.hdmi_to_test}')
-        self.wait_second(3)
+        self.wait_second(5)
+        self.launch_hdmi_input(f'HDMI{self.hdmiTest}')
+        self.wait_second(15)
 
+        # Do Channel Up every 10 minutes for 1 hour
+        for i in range(1, 4):
+            print(f'loop count {i}')
+            self.channel_up()
+            self.wait_minute(10)
+
+        # Do Channel Down every 10 minutes for 1 hour
+        for i in range(1, 4):
+            print(f'loop count {i}')
+            self.channel_down()
+            self.wait_minute(10)
 
 
 # Select HDMI
