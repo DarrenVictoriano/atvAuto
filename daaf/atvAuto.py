@@ -31,10 +31,11 @@ class atvAuto:
         self.headerFrame = ttk.Frame(self.tkRoot)
         self.headerFrame.pack(fill=X)
 
-        # Create canvas and frame for Testcase Instructions
+        # Create canvas Testcase Instructions
         self.sideCanvas = Canvas(self.tkRoot)
         self.sideCanvas.pack(fill=BOTH, side=LEFT)
 
+        # Create Frame for Testcase Instructions
         self.sideFrame = ttk.Frame(self.sideCanvas)
         self.sideFrame.pack(fill=BOTH, side=LEFT)
 
@@ -75,6 +76,7 @@ class atvAuto:
         self.bgCounter = 0
         self.loopCount = IntVar()
         self.loopCount.set(1)
+        self.deviceID = StringVar()
         self.stopLoop = False
         self.countLoopReset = 0
 
@@ -83,6 +85,8 @@ class atvAuto:
         self.btnStop = Button()
         self.txtLoop = Entry()
         self.labelLoop = Label()
+        self.txtDeviceID = Entry()
+        self.labelDeviceID = Label()
         self.LabelLists = []
         self.tsFormat = '%Y-%m-%d, %I:%M:%S %p'
         self.playback_time = 0.3
@@ -151,6 +155,9 @@ class atvAuto:
         self.update_scrollbar()
 
     def start_loop(self):
+        # Set DeviceID to the ATV MainScript
+        self.tv.deviceID = self.deviceID.get()
+
         self.stopLoop = False
         self.watch_loop()
     
@@ -242,8 +249,19 @@ class atvAuto:
 
         # Create Textbox for loop count
         self.txtLoop = Entry(self.headerFrame, font=self.mainFont,
-                             textvariable=self.loopCount)
+                             textvariable=self.loopCount, width=8)
         self.txtLoop.pack(fill=X, side=LEFT)
+
+        # Create Label for DeviceID
+        self.labelDeviceID = Label(
+            self.headerFrame, text=f'    Enter ADB ID or TVs IP: ',
+            font=self.mainFont)
+        self.labelDeviceID.pack(fill=X, side=LEFT)
+
+        # Create Textbox for DeviceID
+        self.txtDeviceID = Entry(self.headerFrame, font=self.mainFont,
+                             textvariable=self.deviceID)
+        self.txtDeviceID.pack(fill=X, side=LEFT)
 
         # Create start button
         self.btnStart = Button(self.headerFrame, text="Start Test",
@@ -618,14 +636,14 @@ class atvAuto:
             print("stopping test")
 
 
-    def press_ff(self):
+    def press_ff(self, playTime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Fast Forward',
+                self.testFrame, text=f'{ts} - Fast Forward for {pt}s',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -641,7 +659,7 @@ class atvAuto:
             self.tv.press_rc_key(self.rc.FF)
             self.tv.wait_in_second(1)
             self.tv.press_rc_key(self.rc.FF)
-            self.tv.wait_in_second(2)
+            self.tv.wait_in_second(playTime)
 
             # Automation Script above --------------------
 
@@ -652,14 +670,14 @@ class atvAuto:
             print("stopping test")
 
 
-    def press_rw(self):
+    def press_rw(self, playTime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Rewind',
+                self.testFrame, text=f'{ts} - Rewind for {pt}s',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -675,8 +693,7 @@ class atvAuto:
             self.tv.press_rc_key(self.rc.RW)
             self.tv.wait_in_second(1)
             self.tv.press_rc_key(self.rc.RW)
-            self.tv.wait_in_second(2)
-
+            self.tv.wait_in_second(playTime)
 
             # Automation Script above --------------------
 
@@ -687,7 +704,7 @@ class atvAuto:
             print("stopping test")
 
 
-    def press_play(self):
+    def press_play(self, playTime):
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -708,7 +725,7 @@ class atvAuto:
             # Automation Script below --------------------
 
             self.tv.press_rc_key(self.rc.PLAY)
-            self.tv.wait_in_second(30)
+            self.tv.wait_in_second(playTime)
 
             # Automation Script above --------------------
 

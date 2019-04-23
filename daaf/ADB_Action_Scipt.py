@@ -5,8 +5,8 @@ import time
 class ActionScript:
     """This is an ADB shell action script framework"""
 
-    def __init__(self, deviceID="none"):
-        self.deviceID = deviceID
+    def __init__(self):
+        self.deviceID = "none"
 
     @staticmethod
     def __execute_cmd(adb):
