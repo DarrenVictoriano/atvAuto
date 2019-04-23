@@ -254,7 +254,7 @@ class atvAuto:
 
         # Create Label for DeviceID
         self.labelDeviceID = Label(
-            self.headerFrame, text=f'DeviceID: ',
+            self.headerFrame, text=f'    Enter ADB ID or TVs IP: ',
             font=self.mainFont)
         self.labelDeviceID.pack(fill=X, side=LEFT)
 
