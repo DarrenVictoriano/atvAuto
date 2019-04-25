@@ -28,8 +28,9 @@ class TestScript(atvAuto):
         # Update the string "Template" to your desired Title
         super().__init__(tkRoot, f'IOP on HDMI{hdmi}')
 
-        # this is in minutes
-        self.playback_time = 0.5
+        # this is in seconds
+        self.playback_min = 0.5
+        self.playback_sec = 5
         self.hdmi_test = hdmi
         self.device_type = deviceType
 
@@ -72,43 +73,102 @@ class TestScript(atvAuto):
         for i in range(0, 3):
             print(f'RC OFF cycle: {i}')
             self.press_rc_key("POWER")
-            self.wait_second(self.playback_time)
+            self.wait_second(self.playback_sec)
             self.press_rc_key("POWER")
-            self.wait_second(self.playback_time)
+            self.wait_second(self.playback_sec)
 
         # Let TV stabalize
-        self.wait_second(self.playback_time)
+        self.wait_second(3)
 
-        # Input Change 3 times
-        for i in range(0, 3):
-            self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-            self.wait_second(self.playback_time)
-            self.launch_hdmi_input("HDMI1")
-            self.wait_second(self.playback_time)
+        # Input Change 1 time
+        for i in range(0, 2):
+            if self.hdmi_test == '1':
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
 
-            self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-            self.wait_second(self.playback_time)
-            self.launch_hdmi_input("HDMI2")
-            self.wait_second(self.playback_time)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
 
-            self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-            self.wait_second(self.playback_time)
-            self.launch_hdmi_input("HDMI3")
-            self.wait_second(self.playback_time)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
 
-            self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-            self.wait_second(self.playback_time)
-            self.launch_hdmi_input("HDMI4")
-            self.wait_second(self.playback_time)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+                self.launch_tv_input()
+                self.wait_second(self.playback_sec)
 
-            self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-            self.wait_second(self.playback_time)
-            self.launch_tv_input()
-            self.wait_second(self.playback_time)
+            elif self.hdmi_test == '2':
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+                self.launch_tv_input()
+                self.wait_second(self.playback_sec)
+
+            elif self.hdmi_test == '3':
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+                self.launch_tv_input()
+                self.wait_second(self.playback_sec)
+
+            else:
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI1")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI2")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+                self.launch_hdmi_input("HDMI3")
+                self.wait_second(self.playback_sec)
+
+                self.launch_hdmi_input("HDMI4")
+                self.wait_second(self.playback_sec)
+                self.launch_tv_input()
+                self.wait_second(self.playback_sec)
 
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
         # Do trickplay
         if self.device_type == '1':
@@ -116,59 +176,59 @@ class TestScript(atvAuto):
             for i in range(1, 4):
                 print(f'loop count {i}')
                 self.channel_up()
-                self.wait_second(self.playback_time)
+                self.wait_second(self.playback_sec)
             # Do Channel Down every 10 minutes for 1 hour
             for i in range(1, 4):
                 print(f'loop count {i}')
                 self.channel_down()
-                self.wait_second(self.playback_time)
+                self.wait_second(self.playback_sec)
             # Trickplay
             self.press_rw(3)
-            self.press_play(self.playback_time)
+            self.press_play(self.playback_sec)
             self.press_ff(3)
-            self.press_play(self.playback_time)
+            self.press_play(self.playback_sec)
         else:
             # Trickplay Media box
             for i in range(0, 3):
                 self.press_ff(3)
-                self.press_play(self.playback_time)
+                self.press_play(self.playback_sec)
                 self.press_rw(3)
-                self.press_play(self.playback_time)
+                self.press_play(self.playback_sec)
 
         # Let TV stabalize
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
         # Interoperability Netflix
         self.launch_netflix()
         self.select_netflix_content()
-        self.playback_netflix(self.playback_time)
+        self.playback_netflix(self.playback_min)
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
         # Interoperability Amazon
         self.launch_amazon()
         self.select_amazon_content()
-        self.playback_amazon(self.playback_time)
+        self.playback_amazon(self.playback_min)
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
         # Interoperability Hulu
         self.launch_hulu()
         self.select_hulu_content()
-        self.playback_hulu(self.playback_time)
+        self.playback_hulu(self.playback_min)
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
         # Interoperability YouTube
         self.launch_youtube()
         self.select_youtube_content()
-        self.playback_youtube(self.playback_time)
+        self.playback_youtube(self.playback_min)
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
-        self.wait_second(self.playback_time)
+        self.wait_second(self.playback_sec)
 
 
 

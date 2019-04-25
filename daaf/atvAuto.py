@@ -643,7 +643,7 @@ class atvAuto:
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Fast Forward for {pt}s',
+                self.testFrame, text=f'{ts} - Fast Forward for {playTime}s',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -677,7 +677,7 @@ class atvAuto:
             ts = datetime.datetime.now().strftime(self.tsFormat)
             # Create label
             x = Label(
-                self.testFrame, text=f'{ts} - Rewind for {pt}s',
+                self.testFrame, text=f'{ts} - Rewind for {playTime}s',
                 background=self.bgChooser(),
                 foreground="#a5120d",
                 font=self.boldFont, anchor='w')
@@ -896,13 +896,13 @@ class atvAuto:
             # Automation Script below --------------------
 
             self.tv.press_rc_key(self.rc.DOWN)
-            self.tv.wait_in_second(2)
+            self.tv.wait_in_second(3)
             self.tv.press_rc_key(self.rc.DOWN)
-            self.tv.wait_in_second(2)
+            self.tv.wait_in_second(3)
             self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(2)
+            self.tv.wait_in_second(4)
             self.tv.press_rc_key(self.rc.ENTER)
-            self.tv.wait_in_second(2)
+            self.tv.wait_in_second(3)
 
             # Automation Script above --------------------
 
