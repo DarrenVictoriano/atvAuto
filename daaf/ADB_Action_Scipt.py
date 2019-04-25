@@ -19,7 +19,7 @@ class ActionScript:
 
     def send_adb(self, cmd):
         """compose the command as an adb shell command"""
-        if self.deviceID == "none":
+        if self.deviceID == "":
             return self.__execute_cmd(f'adb {cmd}'.split(" "))
         else:
             return self.__execute_cmd(f'adb -s {self.deviceID} {cmd}'.split(" "))
