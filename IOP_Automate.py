@@ -29,7 +29,7 @@ class TestScript(atvAuto):
         super().__init__(tkRoot, f'IOP on HDMI{hdmi}')
 
         # this is in minutes
-        self.playback_time = 5
+        self.playback_time = 0.5
         self.hdmi_test = hdmi
         self.device_type = deviceType
 
