@@ -16,6 +16,12 @@ import Power_Tools as pt
 class atvAuto:
 
     def __init__(self, tkRoot, title):
+        """ Takes 1 argument for the title header 
+            
+            Overwrite global variables
+            the default loop count
+            self.loopCount.set(1)
+        """
         # create an instance of the class for ATV Automation
         self.tv = ActionScript()
         self.rc = SonyRCKey()
@@ -137,6 +143,7 @@ class atvAuto:
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
 
     def stopIt(self):
+        """ This sets the loopCount to 1 so the while loop stops mid run """
         # to stop main loop set loop count to 1
         self.loopCount.set(1) # set to 1 so while loop ends
         self.stopLoop = True # this is a flag for UI
@@ -158,6 +165,7 @@ class atvAuto:
         self.update_scrollbar()
 
     def start_loop(self):
+        """ restart the loop """
         # Set DeviceID to the ATV MainScript
         self.tv.deviceID = self.deviceID.get()
         # set stopLoop to false fo we can start the loop
@@ -167,6 +175,7 @@ class atvAuto:
         self.watch_loop()
     
     def watch_loop(self):
+        """ This is the main loop there the testcase runs """
         # Double threaded function that allows to stop the loop mid execution
         def repeatIt():
             # reset UI and flag before starting loop
@@ -248,6 +257,7 @@ class atvAuto:
         thread.start()
 
     def startApp(self):
+        """ this is bind to the start button to start the script """
         # Create Label for loop count
         self.labelLoop = Label(
             self.headerFrame, text=f'Enter Loop count: ',
@@ -305,6 +315,7 @@ class atvAuto:
 # Create test case inside a function --------------------------------------------------
 
     def sample_testcase(self):
+        """ tempalte for test case functions """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -334,6 +345,7 @@ class atvAuto:
 
 
     def press_home(self):
+        """ send Home ADB command via self.press_rc_key() """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -365,6 +377,7 @@ class atvAuto:
 
 
     def wait_second(self, time_wait):
+        """ takes in an integer to represent sleep time in seconds """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -396,6 +409,7 @@ class atvAuto:
 
     
     def wait_minute(self, time_wait):
+        """ takes in an integer to represent sleep time in minutes """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -427,6 +441,7 @@ class atvAuto:
 
 
     def launch_tv_input(self):
+        """ Launch TV input, nno arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -458,6 +473,7 @@ class atvAuto:
 
 
     def channel_down(self):
+        """ press CH down, no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -489,6 +505,7 @@ class atvAuto:
 
 
     def channel_up(self):
+        """ press CH up, no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -520,6 +537,7 @@ class atvAuto:
 
     
     def volume_up(self):
+        """ press Volume up, no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -551,6 +569,7 @@ class atvAuto:
 
 
     def volume_down(self):
+        """ press Volume down, no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -582,6 +601,7 @@ class atvAuto:
     
 
     def launch_hdmi_input(self, hdmi):
+        """ takes in a string Argument as hdmi input """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -613,6 +633,7 @@ class atvAuto:
     
 
     def press_rc_key(self, key_code):
+        """ takes in a string argument that represents the RC keycode """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -747,6 +768,7 @@ class atvAuto:
 
 
     def launch_netflix(self):
+        """ launch netflix, no argument needed """
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -781,6 +803,7 @@ class atvAuto:
 
 
     def select_netflix_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -854,6 +877,7 @@ class atvAuto:
 
 
     def launch_amazon(self):
+        """ no arguments needed """
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -887,6 +911,7 @@ class atvAuto:
 
 
     def select_amazon_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -957,6 +982,7 @@ class atvAuto:
 
 
     def launch_hulu(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -991,6 +1017,7 @@ class atvAuto:
 
 
     def select_hulu_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1057,6 +1084,7 @@ class atvAuto:
 
 
     def launch_vudu(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1091,6 +1119,7 @@ class atvAuto:
 
 
     def select_vudu_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1165,6 +1194,7 @@ class atvAuto:
 
 
     def launch_youtube(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1201,6 +1231,7 @@ class atvAuto:
 
 
     def select_youtube_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1267,6 +1298,7 @@ class atvAuto:
 
 
     def launch_psvue(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1304,6 +1336,7 @@ class atvAuto:
 
 
     def select_psvue_content(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1371,6 +1404,7 @@ class atvAuto:
 
 
     def launch_parental_lock(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1407,6 +1441,7 @@ class atvAuto:
 
 
     def enter_parental_pass(self):
+        """ no arguments needed """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1441,6 +1476,10 @@ class atvAuto:
 
 
     def lock_unlock_hdmi(self, hdmi):
+        """ 
+        takes in a string argument either; 
+        1, 2, 3 or 4 as a representation of HDMI to unlock
+        """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
