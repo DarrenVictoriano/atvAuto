@@ -39,9 +39,9 @@ class TestScript(atvAuto):
         Each call of the 'makeInstructionLabel' is one line
         """
         self.makeInstructionLabel("Tune to HDMI1")
-        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Wait 10 minutes")
         self.makeInstructionLabel("Tune to Netflix")
-        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Wait 10 minutes")
 
     def runThis(self):
         """

@@ -39,7 +39,7 @@ class TestScript(atvAuto):
         Each call of the 'makeInstructionLabel' is one line
         """
         self.makeInstructionLabel("Press Power Key")
-        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Wait 20 seconds")
 
     def runThis(self):
         """
@@ -48,7 +48,9 @@ class TestScript(atvAuto):
 
         # Press RC POWER Key
         self.press_rc_key("POWER")
-        self.wait_second(10)
+        self.wait_second(20)
+        self.press_rc_key("POWER")
+        self.wait_second(20)
 
 
 

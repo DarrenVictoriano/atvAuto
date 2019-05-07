@@ -39,9 +39,9 @@ class TestScript(atvAuto):
         Each call of the 'makeInstructionLabel' is one line
         """
         self.makeInstructionLabel("Tune to HDMI1")
-        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Wait 10 minutes")
         self.makeInstructionLabel("Tune to HDMI2")
-        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Wait 10 minutes")
 
     def runThis(self):
         """
@@ -50,9 +50,9 @@ class TestScript(atvAuto):
 
         # Press RC POWER Key
         self.launch_hdmi_input("HDMI1")
-        self.wait_second(10)
+        self.wait_minute(10)
         self.launch_hdmi_input("HDMI2")
-        self.wait_second(10)
+        self.wait_minute(10)
 
 
 
