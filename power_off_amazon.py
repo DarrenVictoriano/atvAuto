@@ -21,7 +21,7 @@ class Demo(atvAuto):
         super().__init__(tkRoot, "Power OFF Amazon")  # Update the string
 
         # this is in minutes
-        self.playback_time = 0.1
+        self.playback_time = 60
 
     def testCaseInfo(self):
         """ 

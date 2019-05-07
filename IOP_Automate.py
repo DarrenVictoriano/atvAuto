@@ -45,13 +45,13 @@ class TestScript(atvAuto):
         if self.device_type == '1':
             deviceTitle = "STB"
 
-        self.makeInstructionLabel("Do RC Power Cycle 3 times")
-        self.makeInstructionLabel("Do Input Change 3 times")
+        self.makeInstructionLabel("Do RC Power Cycle 6 times")
+        self.makeInstructionLabel("Do Input Change 6 times")
         if deviceTitle == "STB":
-            self.makeInstructionLabel("Do Channel Change 3 times")
-            self.makeInstructionLabel("Do Trickplay 3 times")
+            self.makeInstructionLabel("Do Channel Change 6 times")
+            self.makeInstructionLabel("Do Trickplay 6 times")
         else:
-            self.makeInstructionLabel("Do Trickplay 3 times")
+            self.makeInstructionLabel("Do Trickplay 6 times")
         self.makeInstructionLabel("Launch and Playback Netflix")
         self.makeInstructionLabel(f'Tune back to HDMI{self.hdmi_test}')
         self.makeInstructionLabel("Launch and Playback Amazon")
@@ -182,11 +182,12 @@ class TestScript(atvAuto):
                 print(f'loop count {i}')
                 self.channel_down()
                 self.wait_second(self.playback_sec)
-            # Trickplay
-            self.press_rw(3)
-            self.press_play(self.playback_sec)
-            self.press_ff(3)
-            self.press_play(self.playback_sec)
+            # Trickplay Media box
+            for i in range(0, 3):
+                self.press_ff(3)
+                self.press_play(self.playback_sec)
+                self.press_rw(3)
+                self.press_play(self.playback_sec)
         else:
             # Trickplay Media box
             for i in range(0, 3):
@@ -229,7 +230,6 @@ class TestScript(atvAuto):
         # Tune to HDMI currently testing
         self.launch_hdmi_input(f'HDMI{self.hdmi_test}')
         self.wait_second(self.playback_sec)
-
 
 
 # Select HDMI to test
