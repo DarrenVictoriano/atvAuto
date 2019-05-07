@@ -40,7 +40,7 @@ class TestScript(atvAuto):
         Each call of the 'makeInstructionLabel' is one line
         """
         self.makeInstructionLabel("Rewind Content for 3 seconds")
-        self.makeInstructionLabel("Play Content for 5 seconds")
+        self.makeInstructionLabel("Play Content for 30 seconds")
         self.makeInstructionLabel("Fast Forward Content for 3 seconds")
 
     def runThis(self):
@@ -48,7 +48,7 @@ class TestScript(atvAuto):
         Below is where you assemble test cases
         """
         self.press_rw(3)
-        self.press_play(5)
+        self.press_play(30)
         self.press_ff(3)
 
 
