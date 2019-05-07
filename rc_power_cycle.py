@@ -26,7 +26,7 @@ class TestScript(atvAuto):
     def __init__(self, tkRoot):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, "Jump")
+        super().__init__(tkRoot, "RC Power Cycle")
 
         # this is in minutes
         self.playback_time = 1
@@ -38,8 +38,8 @@ class TestScript(atvAuto):
         This is the one that shows on the left side of the screen
         Each call of the 'makeInstructionLabel' is one line
         """
-        self.makeInstructionLabel("Press Jump Key")
-        self.makeInstructionLabel("Wait 5 seconds")
+        self.makeInstructionLabel("Press Power Key")
+        self.makeInstructionLabel("Wait 10 seconds")
 
     def runThis(self):
         """
@@ -47,8 +47,8 @@ class TestScript(atvAuto):
         """
 
         # Press RC POWER Key
-        self.press_rc_key("JUMP")
-        self.wait_second(5)
+        self.press_rc_key("POWER")
+        self.wait_second(10)
 
 
 

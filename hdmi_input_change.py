@@ -26,7 +26,7 @@ class TestScript(atvAuto):
     def __init__(self, tkRoot):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, "Jump")
+        super().__init__(tkRoot, "HDMI to HDMI input change")
 
         # this is in minutes
         self.playback_time = 1
@@ -38,8 +38,10 @@ class TestScript(atvAuto):
         This is the one that shows on the left side of the screen
         Each call of the 'makeInstructionLabel' is one line
         """
-        self.makeInstructionLabel("Press Jump Key")
-        self.makeInstructionLabel("Wait 5 seconds")
+        self.makeInstructionLabel("Tune to HDMI1")
+        self.makeInstructionLabel("Wait 10 seconds")
+        self.makeInstructionLabel("Tune to HDMI2")
+        self.makeInstructionLabel("Wait 10 seconds")
 
     def runThis(self):
         """
@@ -47,8 +49,10 @@ class TestScript(atvAuto):
         """
 
         # Press RC POWER Key
-        self.press_rc_key("JUMP")
-        self.wait_second(5)
+        self.launch_hdmi_input("HDMI1")
+        self.wait_second(10)
+        self.launch_hdmi_input("HDMI2")
+        self.wait_second(10)
 
 
 

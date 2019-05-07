@@ -76,6 +76,8 @@ class atvAuto:
         self.bgCounter = 0
         self.loopCount = IntVar()
         self.loopCount.set(1)
+        self.loopCounterUI = IntVar() # loop counter UI
+        self.loopCounterUI.set(0)
         self.deviceID = StringVar()
         self.stopLoop = False
         self.countLoopReset = 0
@@ -135,9 +137,10 @@ class atvAuto:
               font=self.sideFont, anchor='w').pack(fill=X, padx=10)
 
     def stopIt(self):
-        # stop main loop
-        self.loopCount.set(1)
-        self.stopLoop = True
+        # to stop main loop set loop count to 1
+        self.loopCount.set(1) # set to 1 so while loop ends
+        self.stopLoop = True # this is a flag for UI
+        
         # disable stop button
         self.btnStop.config(state="disabled")
         # let user know script is stopping
@@ -157,8 +160,10 @@ class atvAuto:
     def start_loop(self):
         # Set DeviceID to the ATV MainScript
         self.tv.deviceID = self.deviceID.get()
-
+        # set stopLoop to false fo we can start the loop
         self.stopLoop = False
+        # re-initialize loopCounter to 0
+        self.loopCounterUI.set(0)
         self.watch_loop()
     
     def watch_loop(self):
@@ -171,12 +176,14 @@ class atvAuto:
             self.btnStop.config(state="normal")
             # disable button while loop is running
             self.btnStart.config(state="disabled")
-            self.txtLoop.config(state="disabled")
-            self.labelLoop.config(text="Remaining Loop:  ")
+            self.txtLoop.config(state="disabled", textvariable=self.loopCounterUI)
+            self.labelLoop.config(text="Loop Count:  ")
 
             while self.loopCount.get() > 0:
                 # move scrollbar to bottom
                 self.testCanvas.yview_moveto(0)
+                # count the loop
+                self.loopCounterUI.set(self.loopCounterUI.get() + 1)
 
                 # Run the test cases
                 self.runThis()
@@ -208,8 +215,8 @@ class atvAuto:
             self.btnStop.config(state="disabled")
             # re-enable button after loop is done
             self.btnStart.config(state="normal")
-            self.txtLoop.config(state="normal")
-            self.labelLoop.config(text="Enter Loop count: ")
+            self.txtLoop.config(state="normal", textvariable=self.loopCount)
+            self.labelLoop.config(text="Enter Loop Count: ")
             # self.testCanvas.yview_moveto(0)
             # Let user know the script is done
             if not self.stopLoop:
@@ -230,9 +237,9 @@ class atvAuto:
                 x.pack(fill=X)
                 self.bgCounter += 1
             self.btnStart.config(state="normal")
-            self.txtLoop.config(state="normal")
+            self.txtLoop.config(state="normal", textvariable=self.loopCount)
             self.labelLoop.config(text="Enter Loop count: ")
-            self.loopCount.set(1)
+            self.loopCount.set(50000)
             self.LabelLists.append(x)
             # allow window to catch up
             self.tkRoot.update()
