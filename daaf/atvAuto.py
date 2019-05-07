@@ -644,6 +644,7 @@ class atvAuto:
 
 
     def press_ff(self, playTime):
+        """ playTime is in seconds """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -678,6 +679,7 @@ class atvAuto:
 
 
     def press_rw(self, playTime):
+        """ playTime is in seconds """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -712,6 +714,7 @@ class atvAuto:
 
 
     def press_play(self, playTime):
+        """ playTime is in seconds """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -819,6 +822,7 @@ class atvAuto:
 
 
     def playback_netflix(self, playtime):
+        """ playTime is in minutes """
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -921,6 +925,7 @@ class atvAuto:
 
 
     def playback_amazon(self, playtime):
+        """ playTime is in minutes """
         if not self.stopLoop:
             # get time
             ts = datetime.datetime.now().strftime(self.tsFormat)
@@ -1020,6 +1025,7 @@ class atvAuto:
 
 
     def playback_hulu(self, playtime):
+        """ playTime is in minutes """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1127,6 +1133,7 @@ class atvAuto:
 
 
     def playback_vudu(self, playtime):
+        """ playTime is in minutes """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1228,6 +1235,7 @@ class atvAuto:
 
 
     def playback_youtube(self, playtime):
+        """ playTime is in minutes """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
@@ -1331,6 +1339,7 @@ class atvAuto:
 
 
     def playback_psvue(self, playtime):
+        """ playTime is in minutes """
         # each test case 1st check for the stop button flag
         if not self.stopLoop:
             # get time
