@@ -26,7 +26,7 @@ class TestScript(atvAuto):
     def __init__(self, tkRoot):
         """ Initialize the UI and then Set Title Header"""
         # Update the string "Template" to your desired Title
-        super().__init__(tkRoot, "HDMI to Netflix input change")
+        super().__init__(tkRoot, "HDMI to YouTube input change")
 
         # this is in minutes
         self.playback_time = 1
@@ -40,21 +40,19 @@ class TestScript(atvAuto):
         """
         self.makeInstructionLabel("Tune to HDMI1")
         self.makeInstructionLabel("Wait 10 seconds")
-        self.makeInstructionLabel("Tune to Netflix")
+        self.makeInstructionLabel("Tune to YouTube")
         self.makeInstructionLabel("Wait 10 seconds")
 
     def runThis(self):
         """
         Below is where you assemble test cases
         """
-
-        # Press RC POWER Key
         self.launch_hdmi_input("HDMI1")
         self.wait_minute(10)
 
-        self.launch_netflix()
-        self.select_netflix_content()
-        self.playback_netflix(10)
+        self.launch_youtube()
+        self.select_youtube_content()
+        self.playback_youtube(10)
 
 
 # Start the script
